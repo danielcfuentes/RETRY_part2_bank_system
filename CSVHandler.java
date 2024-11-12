@@ -105,23 +105,29 @@ public class CSVHandler {
                         List<Account> accounts = new ArrayList<>();
                         
                         // Create Checking account
-                        accounts.add(new Checkings(
+                        Account checking = new Checkings(
                             parts[columnMap.get("Checking Account Number")],
                             Double.parseDouble(parts[columnMap.get("Checking Starting Balance")])
-                        ));
+                        );
+                        checking.setOwner(customer);
+                        accounts.add(checking);
                         
                         // Create Savings account
-                        accounts.add(new Savings(
+                        Account savings = new Savings(
                             parts[columnMap.get("Savings Account Number")],
                             Double.parseDouble(parts[columnMap.get("Savings Starting Balance")])
-                        ));
+                        );
+                        savings.setOwner(customer);
+                        accounts.add(savings);
                         
                         // Create Credit account
-                        accounts.add(new Credit(
+                        Account credit = new Credit(
                             parts[columnMap.get("Credit Account Number")],
                             Double.parseDouble(parts[columnMap.get("Credit Starting Balance")]),
                             Double.parseDouble(parts[columnMap.get("Credit Max")])
-                        ));
+                        );
+                        credit.setOwner(customer);
+                        accounts.add(credit);
                         
                         // Associate accounts with customer and add to customers map
                         customer.setAccounts(accounts);

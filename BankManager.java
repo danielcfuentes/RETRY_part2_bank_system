@@ -66,7 +66,8 @@ public class BankManager extends Person {
             
             // Log the creation
             logger.logTransaction("Bank Manager created new customer: " + newCustomer.getName() + 
-                                " (ID: " + newCustomer.getCustomerID() + ")");
+                                " (ID: " + newCustomer.getCustomerID() + ")",
+                                "Bank Manager");
             
             return Optional.of(newCustomer);
             
@@ -192,7 +193,8 @@ public class BankManager extends Person {
                     .append(String.format("%.2f", account.getBalance())).append("\n\n");
         }
         
-        logger.logTransaction("Bank Manager generated statement for: " + customer.getName());
+        logger.logTransaction("Bank Manager generated statement for: " + customer.getName(),
+                              "Bank Manager");
         
         return statement.toString();
     }

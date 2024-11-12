@@ -12,6 +12,9 @@ public abstract class Account {
     protected String accountNumber;
     /** The transaction log for every inquiry */
     private static TransactionLog transactionLog;
+    /** The owner of the account */
+    private Customer owner;
+
     
     /**
      * Initializes an account with the given account number and balance.
@@ -27,6 +30,22 @@ public abstract class Account {
     * Default constructor for account.
     */
     public Account() {}
+
+    /**
+     * Sets the owner of the account.
+     * @param owner the owner of the account
+     */
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Returns the owner of the account.
+     * @return the owner of the account
+     */
+    public Customer getOwner() {
+        return owner;
+    }
 
     /**
     * Sets transaction log to log
@@ -68,7 +87,8 @@ public abstract class Account {
         if (transactionLog != null) {
             transactionLog.logTransaction(
                 String.format("Balance inquiry for %s: $%.2f", 
-                    accountNumber, balance)
+                    accountNumber, balance),
+                owner.getName()
             );
         }
         return balance;
@@ -84,7 +104,8 @@ public abstract class Account {
             if (transactionLog != null) {
                 transactionLog.logTransaction(
                     String.format("Deposit of $%.2f to %s. New balance: $%.2f", 
-                        amount, accountNumber, balance)
+                        amount, accountNumber, balance),
+                    owner.getName()
                 );
             }
         } else {
@@ -102,7 +123,8 @@ public abstract class Account {
             if (transactionLog != null) {
                 transactionLog.logTransaction(
                     String.format("Withdrawal of $%.2f from %s. New balance: $%.2f", 
-                        amount, accountNumber, balance)
+                        amount, accountNumber, balance),
+                    owner.getName()
                 );
             }
         } else {
