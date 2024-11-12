@@ -253,7 +253,7 @@ public class CustomerMenu implements Menu {
             String recipientName = getInput();
             
             // Get recipient from bank manager
-            Optional<Customer> recipientOpt = BankOperations.getBankManager()
+            Optional<Customer> recipientOpt = bankManager
                 .findCustomerInteractive(
                     recipientName.split(" ")[0], 
                     recipientName.split(" ")[1]
