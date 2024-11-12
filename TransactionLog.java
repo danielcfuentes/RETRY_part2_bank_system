@@ -1,30 +1,109 @@
 import java.io.*;
 import java.util.*;
+import java.time.*;
+
 /**
  * Handles logging of all banking transactions.
- * Maintains record of activities in the system.
+ * Maintains record of activities in the system and tracks session information.
+ * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class TransactionLog {
-    /**File that stores all activites of the whole system */
+    /** File that stores all activities of the system */
     private static final String LOG_FILE = "transaction_log.txt";
-    /** List storing all transaction log entries  */
+    
+    /** List storing all transaction log entries */
     private List<String> currentLogs;
+    
+    /** Time when the current session started */
+    private LocalDateTime sessionStartTime;
+    
+    /** Map to store starting balances for the session */
+    private Map<String, Map<String, Double>> sessionStartBalances;
 
     /**
      * Creates a new transaction logger.
-     * Initializes the log
+     * Initializes session tracking and loads existing logs.
      */
     public TransactionLog() {
         this.currentLogs = new ArrayList<>();
+        this.sessionStartTime = LocalDateTime.now();
+        this.sessionStartBalances = new HashMap<>();
         loadExistingLogs();
     }
 
     /**
-     * Loads existing transaction logs from file.
-     * Creates new log file if it doesn't exist.
+     * Records starting balances for a customer's session.
+     * Should be called when customer logs in.
+     * 
+     * @param customerName the customer's name
+     * @param accounts list of customer's accounts
      */
+    public void recordSessionStart(String customerName, List<Account> accounts) {
+        Map<String, Double> balances = new HashMap<>();
+        for (Account account : accounts) {
+            balances.put(account.getAccountNumber(), account.getBalance());
+        }
+        sessionStartBalances.put(customerName, balances);
+    }
+
+    /**
+     * Gets the starting balance for a specific account in the current session.
+     * 
+     * @param customerName the customer's name
+     * @param accountNumber the account number
+     * @return the starting balance or 0 if not found
+     */
+    public double getStartingBalance(String customerName, String accountNumber) {
+        Map<String, Double> balances = sessionStartBalances.get(customerName);
+        if (balances != null) {
+            return balances.getOrDefault(accountNumber, 0.0);
+        }
+        return 0.0;
+    }
+
+    /**
+     * Gets all transactions for a specific customer in the current session.
+     * 
+     * @param customerName the customer's name
+     * @return list of transaction strings
+     */
+    public List<String> getCustomerSessionTransactions(String customerName) {
+        List<String> customerTransactions = new ArrayList<>();
+        
+        for (String log : currentLogs) {
+            // Only include logs after session start that mention the customer
+            if (log.contains(customerName)) {
+                customerTransactions.add(log);
+            }
+        }
+        
+        return customerTransactions;
+    }
+
+    /**
+     * Gets the time when the current session started.
+     * @return session start time
+     */
+    public LocalDateTime getSessionStartTime() {
+        return sessionStartTime;
+    }
+
+    // Original methods remain the same
+    public void logTransaction(String transaction) {
+        String timestamp = LocalDateTime.now().format(
+            java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String logEntry = timestamp + " - " + transaction;
+        currentLogs.add(logEntry);
+        
+        try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
+            writer.write(logEntry + "\n");
+        } catch (IOException e) {
+            System.err.println("Error writing to transaction log: " + e.getMessage());
+        }
+    }
+
     private void loadExistingLogs() {
         try {
             File file = new File(LOG_FILE);
@@ -43,35 +122,6 @@ public class TransactionLog {
         }
     }
 
-    /**
-     * Gets all current log entries. 
-     * @return list of all transaction logs
-     */
-    public List<String> getLogEntries() {
-        return new ArrayList<>(currentLogs);
-    }
-
-    /**
-     * Logs a new transaction and writes it to file.
-     * Immediately keeps the transaction.
-     * @param transaction the transaction details to log
-     */
-    public void logTransaction(String transaction) {
-        String logEntry = String.format(transaction);
-        currentLogs.add(logEntry);
-        
-        //immediately write to file
-        try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
-            writer.write(logEntry + "\n");
-        } catch (IOException e) {
-            System.err.println("Error writing to transaction log: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Updates the log file with all current transactions before system exit.
-     * Writes all logged transactions.
-     */
     public void exitUpdate() {
         try (FileWriter writer = new FileWriter(LOG_FILE)) {
             for (String log : currentLogs) {
