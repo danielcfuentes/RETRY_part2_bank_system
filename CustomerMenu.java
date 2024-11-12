@@ -23,16 +23,21 @@ public class CustomerMenu implements Menu {
     /** Scanner for reading user input */
     private Scanner scanner;
 
+    /** Bank manager for interacting with customers using this to access manager functionality */
+    private BankManager bankManager;
+
     /**
      * Creates a new customer menu for the specified customer.
      * 
      * @param customer the customer using the menu
      * @param logger transaction logging system
+     * @param bankManager bank manager which is the instance of the bank manager
      */
-    public CustomerMenu(Customer customer, TransactionLog logger) {
+    public CustomerMenu(Customer customer, TransactionLog logger, BankManager bankManager) {
         this.customer = customer;
         this.logger = logger;
         this.scanner = new Scanner(System.in);
+        this.bankManager = bankManager;
         
         // Record starting balances for transaction history
         logger.recordSessionStart(customer.getName(), customer.getAccounts());

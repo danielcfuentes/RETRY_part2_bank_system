@@ -53,7 +53,7 @@ public class BankOperations {
             return;
         }
         
-        currentMenu = new CustomerMenu(customer, logger);
+        currentMenu = new CustomerMenu(customer, logger, bankManager);
         runMenuLoop();
     }
 
