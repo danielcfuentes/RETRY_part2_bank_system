@@ -206,4 +206,21 @@ public class BankManager extends Person {
         // This will be implemented in the next requirement
         // It will handle reading and processing the Transactions.csv file
     }
+
+    /**
+     * Looks up an account by its account number across all customers.
+     * 
+     * @param accountNumber the account number to search for
+     * @return Optional containing the account if found
+     */
+    public Optional<Account> lookupAccountByNumber(String accountNumber) {
+        for (Customer customer : customers.values()) {
+            for (Account account : customer.getAccounts()) {
+                if (account.getAccountNumber().equals(accountNumber)) {
+                    return Optional.of(account);
+                }
+            }
+        }
+        return Optional.empty();
+    }
 }
