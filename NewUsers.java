@@ -12,28 +12,16 @@ import java.util.*;
  * @version 2.0
  */
 public class NewUsers {
-    /** Tracks the last used user ID for generating new IDs */
     private int lastUserId;
-    
-    /** Map of existing customers for duplicate checking */
     private Map<String, Customer> existingCustomers;
-    
-    /** Random number generator for credit limits */
     private Random random;
 
-    /**
-     * Initializes the NewUsers handler with existing customer data.
-     * @param existingCustomers map of existing customers
-     */
     public NewUsers(Map<String, Customer> existingCustomers) {
         this.existingCustomers = existingCustomers;
         this.random = new Random();
         initializeLastUserId();
     }
 
-    /**
-     * Finds the highest existing user ID to initialize the counter.
-     */
     private void initializeLastUserId() {
         lastUserId = existingCustomers.values().stream()
             .mapToInt(c -> Integer.parseInt(c.getCustomerID()))
@@ -41,36 +29,28 @@ public class NewUsers {
             .orElse(0);
     }
 
-    /**
-     * Validates if a new customer name would create an invalid duplicate scenario.
-     * Invalid scenario: Customer sharing both first and last name with existing customer.
-     * 
-     * @param firstName proposed first name
-     * @param lastName proposed last name
-     * @return true if name is valid, false if would create invalid duplicate
-     */
     public boolean isValidNewCustomerName(String firstName, String lastName) {
-        // Check if exact full name already exists
+        // Count customers with matching first name and last name
+        int firstNameMatches = 0;
+        int lastNameMatches = 0;
         String fullName = firstName + " " + lastName;
+
+        // Check if exact full name already exists
         if (existingCustomers.containsKey(fullName)) {
             return false;
         }
 
-        // Count matches for first name and last name
-        boolean hasFirstNameMatch = false;
-        boolean hasLastNameMatch = false;
-
         for (String existingName : existingCustomers.keySet()) {
             String[] nameParts = existingName.split(" ");
             if (nameParts[0].equalsIgnoreCase(firstName)) {
-                hasFirstNameMatch = true;
+                firstNameMatches++;
             }
             if (nameParts[1].equalsIgnoreCase(lastName)) {
-                hasLastNameMatch = true;
+                lastNameMatches++;
             }
 
-            // If both match, this would create an invalid duplicate
-            if (hasFirstNameMatch && hasLastNameMatch) {
+            // If we find matches for both first and last name, it's invalid
+            if (firstNameMatches > 0 && lastNameMatches > 0) {
                 return false;
             }
         }
@@ -78,14 +58,6 @@ public class NewUsers {
         return true;
     }
 
-    /**
-     * Creates a new customer with all necessary accounts.
-     * Assumes name has already been validated with isValidNewCustomerName().
-     * 
-     * @param userData map containing all required customer information
-     * @return the newly created Customer object
-     * @throws IllegalArgumentException if required data is missing or invalid
-     */
     public Customer createUser(Map<String, String> userData) {
         // Validate required fields
         validateUserData(userData);
@@ -97,8 +69,10 @@ public class NewUsers {
         String lastName = userData.get("lastName");
         String fullName = firstName + " " + lastName;
         
-        // Create new customer object with additional fields
+        // Create new customer object
         Customer newCustomer = new Customer(fullName, customerId);
+        
+        // Set customer details
         newCustomer.setDateOfBirth(userData.get("dob"));
         newCustomer.setAddress(userData.get("address"));
         newCustomer.setCity(userData.get("city"));
@@ -107,40 +81,44 @@ public class NewUsers {
         newCustomer.setPhoneNumber(userData.get("phone"));
         newCustomer.setCreditScore(Integer.parseInt(userData.get("creditScore")));
         
-        // Generate accounts
+        // Generate account numbers
         List<String> accountNumbers = generateAccountNumbers(customerId);
         List<Account> accounts = new ArrayList<>();
         
-        // Create checking account
-        accounts.add(new Checkings(accountNumbers.get(0), 0.0));
+        // Create accounts
+        Account checking = new Checkings(accountNumbers.get(0), 0.0);
+        checking.setOwner(newCustomer);
+        accounts.add(checking);
         
-        // Create savings account
-        accounts.add(new Savings(accountNumbers.get(1), 0.0));
+        Account savings = new Savings(accountNumbers.get(1), 0.0);
+        savings.setOwner(newCustomer);
+        accounts.add(savings);
         
-        // Create credit account with appropriate limit
         double creditLimit = getCreditLimit(newCustomer.getCreditScore());
-        accounts.add(new Credit(accountNumbers.get(2), 0.0, creditLimit));
+        Account credit = new Credit(accountNumbers.get(2), 0.0, creditLimit);
+        credit.setOwner(newCustomer);
+        accounts.add(credit);
         
         newCustomer.setAccounts(accounts);
         return newCustomer;
     }
 
-    /**
-     * Validates that all required user data is present and valid.
-     * 
-     * @param userData map of user data to validate
-     * @throws IllegalArgumentException if data is missing or invalid
-     */
     private void validateUserData(Map<String, String> userData) {
         String[] requiredFields = {
             "firstName", "lastName", "dob", "address", "city", 
             "state", "zip", "phone", "creditScore"
         };
         
+        List<String> missingFields = new ArrayList<>();
         for (String field : requiredFields) {
             if (!userData.containsKey(field) || userData.get(field).trim().isEmpty()) {
-                throw new IllegalArgumentException("Missing required field: " + field);
+                missingFields.add(field);
             }
+        }
+        
+        if (!missingFields.isEmpty()) {
+            throw new IllegalArgumentException("Missing required fields: " + 
+                String.join(", ", missingFields));
         }
         
         // Validate credit score
@@ -154,13 +132,6 @@ public class NewUsers {
         }
     }
 
-    /**
-     * Generates account numbers for all account types.
-     * Format: [type prefix][customer id padded to 3 digits]
-     * 
-     * @param customerId the customer's ID
-     * @return list of account numbers [checking, savings, credit]
-     */
     private List<String> generateAccountNumbers(String customerId) {
         String paddedId = String.format("%03d", Integer.parseInt(customerId));
         return Arrays.asList(
@@ -170,13 +141,6 @@ public class NewUsers {
         );
     }
 
-    /**
-     * Calculates credit limit based on credit score ranges.
-     * Uses random number within appropriate range.
-     * 
-     * @param creditScore customer's credit score
-     * @return calculated credit limit
-     */
     private double getCreditLimit(int creditScore) {
         if (creditScore <= 580) {
             return 100 + random.nextDouble() * (699 - 100);

@@ -82,3 +82,9 @@ Daniel S made a balance inquiry on 3095. Balance: $-718.69
 2024-11-12 14:32:05 - Daniel S made a balance inquiry on 1095. Balance: $54662.26
 2024-11-12 14:32:05 - Daniel S made a balance inquiry on 2095. Balance: $2944.12
 2024-11-12 14:32:05 - Daniel S made a balance inquiry on 3095. Balance: $-718.69
+2024-11-12 15:11:30 - Bank Manager created new customer: Daniel Fuentes (ID: 104)
+2024-11-12 15:12:10 - Daniel Fuentes made a balance inquiry on 1104. Balance: $0.00
+2024-11-12 15:12:10 - Daniel Fuentes made a balance inquiry on 2104. Balance: $0.00
+2024-11-12 15:12:10 - Daniel Fuentes made a balance inquiry on 3104. Balance: $0.00
+2024-11-12 15:32:29 - Bank Manager created new customer: Daniel Aguilar (ID: 104)
+2024-11-12 15:32:29 - Created new customer: Daniel Aguilar (ID: 104)

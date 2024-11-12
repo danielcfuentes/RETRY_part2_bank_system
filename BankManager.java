@@ -25,7 +25,7 @@ public class BankManager extends Person {
     private Scanner scanner;
     
     /** Handler for creating new users */
-    private NewUsers newUsersHandler;
+    NewUsers newUsersHandler;
 
     /**
      * Creates a new Bank Manager with access to all customer data.

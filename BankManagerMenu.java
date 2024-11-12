@@ -102,54 +102,85 @@ public class BankManagerMenu implements Menu {
      * Handles creation of new customer account.
      * Collects all necessary information and validates before creation.
      */
-    private void handleNewCustomer() {
-        try {
-            Map<String, String> userData = new HashMap<>();
-            
-            System.out.println("\nEnter new customer details:");
-            System.out.println("First Name:");
-            userData.put("firstName", getInput());
-            
-            System.out.println("Last Name:");
-            userData.put("lastName", getInput());
-            
-            // Check if name would create invalid duplicate
-            if (!bankManager.createNewCustomer(userData).isPresent()) {
-                System.out.println("Error: Cannot create user with this name.");
-                return;
-            }
-            
-            System.out.println("Date of Birth (DD-MMM-YY):");
-            userData.put("dob", getInput());
-            
-            System.out.println("Address:");
-            userData.put("address", getInput());
-            
-            System.out.println("City:");
-            userData.put("city", getInput());
-            
-            System.out.println("State:");
-            userData.put("state", getInput());
-            
-            System.out.println("ZIP Code:");
-            userData.put("zip", getInput());
-            
-            System.out.println("Phone Number:");
-            userData.put("phone", getInput());
-            
-            System.out.println("Credit Score (300-850):");
-            userData.put("creditScore", getInput());
-            
-            Optional<Customer> newCustomer = bankManager.createNewCustomer(userData);
-            if (newCustomer.isPresent()) {
-                System.out.println("\nNew customer created successfully!");
-                displayCustomerSummary(newCustomer.get());
-            }
-            
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error creating customer: " + e.getMessage());
+private void handleNewCustomer() {
+    try {
+        Map<String, String> userData = new HashMap<>();
+        
+        System.out.println("\nEnter new customer details:");
+        
+        // Get name information first
+        System.out.println("First Name:");
+        String firstName = getInput();
+        System.out.println("Last Name:");
+        String lastName = getInput();
+        
+        // Check for name conflicts before proceeding
+        if (!bankManager.newUsersHandler.isValidNewCustomerName(firstName, lastName)) {
+            System.out.println("Error: A customer with same first AND last name already exists,");
+            System.out.println("or multiple customers with same first AND last name would exist.");
+            return;
         }
+        
+        // Store name data
+        userData.put("firstName", firstName);
+        userData.put("lastName", lastName);
+        
+        // Get remaining required information
+        System.out.println("Date of Birth (DD-MMM-YY):");
+        userData.put("dob", getInput());
+        
+        System.out.println("Address:");
+        userData.put("address", getInput());
+        
+        System.out.println("City:");
+        userData.put("city", getInput());
+        
+        System.out.println("State:");
+        userData.put("state", getInput());
+        
+        System.out.println("ZIP Code:");
+        userData.put("zip", getInput());
+        
+        System.out.println("Phone Number (XXX-XXX-XXXX):");
+        userData.put("phone", getInput());
+        
+        // Get and validate credit score
+        while (true) {
+            try {
+                System.out.println("Credit Score (300-850):");
+                String creditScore = getInput();
+                int score = Integer.parseInt(creditScore);
+                if (score >= 300 && score <= 850) {
+                    userData.put("creditScore", creditScore);
+                    break;
+                } else {
+                    System.out.println("Credit score must be between 300 and 850. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number for credit score.");
+            }
+        }
+        
+        // Now create the customer with complete data
+        Optional<Customer> newCustomer = bankManager.createNewCustomer(userData);
+        if (newCustomer.isPresent()) {
+            System.out.println("\nNew customer created successfully!");
+            displayCustomerSummary(newCustomer.get());
+            
+            // Log the creation
+            logger.logTransaction(
+                String.format("Created new customer: %s %s (ID: %s)", 
+                    firstName, lastName, newCustomer.get().getCustomerID()),
+                "Bank Manager"
+            );
+        } else {
+            System.out.println("Failed to create customer. Please try again.");
+        }
+        
+    } catch (IllegalArgumentException e) {
+        System.out.println("Error creating customer: " + e.getMessage());
     }
+}
     
     /**
      * Handles account inquiry by account number.
