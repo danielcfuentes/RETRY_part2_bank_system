@@ -16,6 +16,9 @@ public class TransactionLog {
     /** List storing all transaction log entries */
     private List<String> currentLogs;
     
+    /** Map storing session-specific transactions for each customer */
+    private Map<String, List<String>> sessionTransactions;
+    
     /** Time when the current session started */
     private LocalDateTime sessionStartTime;
     
@@ -24,10 +27,10 @@ public class TransactionLog {
 
     /**
      * Creates a new transaction logger.
-     * Initializes session tracking and loads existing logs.
      */
     public TransactionLog() {
         this.currentLogs = new ArrayList<>();
+        this.sessionTransactions = new HashMap<>();
         this.sessionStartTime = LocalDateTime.now();
         this.sessionStartBalances = new HashMap<>();
         loadExistingLogs();
@@ -35,17 +38,21 @@ public class TransactionLog {
 
     /**
      * Records starting balances for a customer's session.
-     * Should be called when customer logs in.
+     * Also initializes session transaction tracking for this customer.
      * 
      * @param customerName the customer's name
      * @param accounts list of customer's accounts
      */
     public void recordSessionStart(String customerName, List<Account> accounts) {
+        // Record starting balances
         Map<String, Double> balances = new HashMap<>();
         for (Account account : accounts) {
             balances.put(account.getAccountNumber(), account.getBalance());
         }
         sessionStartBalances.put(customerName, balances);
+        
+        // Initialize session transactions list for this customer
+        sessionTransactions.put(customerName, new ArrayList<>());
     }
 
     /**
@@ -64,22 +71,13 @@ public class TransactionLog {
     }
 
     /**
-     * Gets all transactions for a specific customer in the current session.
+     * Gets transactions for a specific customer in the current session only.
      * 
      * @param customerName the customer's name
-     * @return list of transaction strings
+     * @return list of session transactions
      */
     public List<String> getCustomerSessionTransactions(String customerName) {
-        List<String> customerTransactions = new ArrayList<>();
-        
-        for (String log : currentLogs) {
-            // Only include logs after session start that mention the customer
-            if (log.contains(customerName)) {
-                customerTransactions.add(log);
-            }
-        }
-        
-        return customerTransactions;
+        return sessionTransactions.getOrDefault(customerName, new ArrayList<>());
     }
 
     /**
@@ -90,13 +88,26 @@ public class TransactionLog {
         return sessionStartTime;
     }
 
-    // Original methods remain the same
-    public void logTransaction(String transaction) {
+    /**
+     * Logs a transaction to both the main log and session-specific log if applicable.
+     * 
+     * @param transaction the transaction details to log
+     * @param customerName the customer who performed the transaction
+     */
+    public void logTransaction(String transaction, String customerName) {
         String timestamp = LocalDateTime.now().format(
             java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String logEntry = timestamp + " - " + transaction;
+        
+        // Add to main transaction log
         currentLogs.add(logEntry);
         
+        // If this is a session transaction, add to session log
+        if (sessionTransactions.containsKey(customerName)) {
+            sessionTransactions.get(customerName).add(logEntry);
+        }
+        
+        // Write to file immediately
         try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
             writer.write(logEntry + "\n");
         } catch (IOException e) {

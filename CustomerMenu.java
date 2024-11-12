@@ -116,7 +116,8 @@ public class CustomerMenu implements Menu {
                 String.format("%s made a balance inquiry on %s. Balance: $%.2f",
                     customer.getName(),
                     account.getAccountNumber(),
-                    account.getBalance())
+                    account.getBalance()),
+                customer.getName()
             );
         }
     }
@@ -144,8 +145,13 @@ public class CustomerMenu implements Menu {
                 selectedAccount.deposit(amount);
                 
                 System.out.printf("Successfully deposited $%.2f%n", amount);
-                logger.logTransaction(String.format("%s deposited $%.2f to %s", 
-                    customer.getName(), amount, selectedAccount.getAccountNumber()));
+                logger.logTransaction(
+                    String.format("%s deposited $%.2f to %s", 
+                        customer.getName(), 
+                        amount, 
+                        selectedAccount.getAccountNumber()),
+                    customer.getName()
+                );
             } else {
                 System.out.println("Invalid account selection.");
             }
@@ -176,8 +182,13 @@ public class CustomerMenu implements Menu {
                 selectedAccount.withdraw(amount);
                 
                 System.out.printf("Successfully withdrew $%.2f%n", amount);
-                logger.logTransaction(String.format("%s withdrew $%.2f from %s", 
-                    customer.getName(), amount, selectedAccount.getAccountNumber()));
+                logger.logTransaction(
+                    String.format("%s withdrew $%.2f from %s", 
+                        customer.getName(),
+                        amount, 
+                        selectedAccount.getAccountNumber()),
+                    customer.getName()
+                );
             } else {
                 System.out.println("Invalid account selection.");
             }
@@ -229,9 +240,14 @@ public class CustomerMenu implements Menu {
                 destination.deposit(amount);
                 
                 System.out.printf("Successfully transferred $%.2f%n", amount);
-                logger.logTransaction(String.format("%s transferred $%.2f from %s to %s", 
-                    customer.getName(), amount, source.getAccountNumber(), 
-                    destination.getAccountNumber()));
+                logger.logTransaction(
+                    String.format("%s transferred $%.2f from %s to %s", 
+                        customer.getName(), 
+                        amount, 
+                        source.getAccountNumber(), 
+                        destination.getAccountNumber()),
+                    customer.getName()
+                );
             } else {
                 System.out.println("Invalid account selection.");
             }
@@ -304,8 +320,13 @@ public class CustomerMenu implements Menu {
                            amount);
                 
                 System.out.printf("Successfully paid $%.2f to %s%n", amount, recipientName);
-                logger.logTransaction(String.format("%s paid %s $%.2f", 
-                    customer.getName(), recipientName, amount));
+                logger.logTransaction(
+                    String.format("%s paid %s $%.2f", 
+                        customer.getName(), 
+                        recipientName, 
+                        amount),
+                    customer.getName()
+                );
             } else {
                 System.out.println("Invalid account selection.");
             }

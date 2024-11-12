@@ -5,14 +5,10 @@ import java.time.format.*;
 
 /**
  * Handles the generation of transaction history files for customers.
- * Creates formatted txt files containing:
- * - Account information
- * - Starting balances (session start)
- * - Current balances
- * - All transactions for the current session
+ * Creates formatted txt files containing session-specific information.
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class TransactionHistory {
     /** Directory where transaction history files are stored */
@@ -25,7 +21,10 @@ public class TransactionHistory {
     private TransactionLog transactionLog;
     
     /** Date/time formatter for the report */
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmss");
+    
+    /** Date/time formatter for display in the report */
+    private DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Creates a new transaction history generator.
@@ -43,16 +42,22 @@ public class TransactionHistory {
 
     /**
      * Generates a transaction history file for the current session.
-     * Creates a new file with the format: customerID_YYYYMMDD_HHMMSS.txt
+     * Creates a new file with the format: FirstName_LastName_Transactions_YYYYMMDD_HHMMSS.txt
      * 
      * @return the generated file name
      * @throws IOException if file creation fails
      */
     public String generateHistoryFile() throws IOException {
+        // Get customer's first and last name
+        String[] nameParts = customer.getName().split(" ");
+        String firstName = nameParts[0];
+        String lastName = nameParts[1];
+        
         // Generate filename with timestamp
-        String fileName = String.format("%s_%s.txt",
-            customer.getCustomerID(),
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
+        String fileName = String.format("%s_%s_Transactions_%s.txt",
+            firstName,
+            lastName,
+            LocalDateTime.now().format(formatter)
         );
         
         String fullPath = HISTORY_DIR + fileName;
@@ -75,19 +80,17 @@ public class TransactionHistory {
 
     /**
      * Writes the header section of the history file.
-     * Includes customer information and dates.
      */
     private void writeHeader(PrintWriter writer) {
         writer.println("TRANSACTION HISTORY FOR: " + customer.getName());
         writer.println("Customer ID: " + customer.getCustomerID());
-        writer.println("Date Generated: " + LocalDateTime.now().format(formatter));
-        writer.println("Session Start: " + transactionLog.getSessionStartTime().format(formatter));
+        writer.println("Date Generated: " + LocalDateTime.now().format(displayFormatter));
+        writer.println("Session Start: " + transactionLog.getSessionStartTime().format(displayFormatter));
         writer.println("\n" + "=".repeat(50) + "\n");
     }
 
     /**
-     * Writes account information section.
-     * Shows starting and current balances for all accounts.
+     * Writes account information section with starting and current balances.
      */
     private void writeAccountInformation(PrintWriter writer) {
         writer.println("ACCOUNT INFORMATION:");
@@ -109,7 +112,6 @@ public class TransactionHistory {
 
     /**
      * Writes all transactions for the current session.
-     * Only includes transactions for this customer.
      */
     private void writeTransactions(PrintWriter writer) {
         writer.println("SESSION TRANSACTIONS:");
