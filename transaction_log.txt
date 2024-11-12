@@ -74,3 +74,8 @@ Daniel A made a balance inquiry on 3078. Balance: $43.07
 Daniel S made a balance inquiry on 1095. Balance: $3662.26
 Daniel S made a balance inquiry on 2095. Balance: $2944.12
 Daniel S made a balance inquiry on 3095. Balance: $-718.69
+Daniel S deposited $1000.00 to 1095
+Daniel S made a balance inquiry on 1095. Balance: $3662.26
+Daniel S made a balance inquiry on 2095. Balance: $2944.12
+Daniel S made a balance inquiry on 3095. Balance: $-718.69
+Daniel S deposited $10000.00 to 1095

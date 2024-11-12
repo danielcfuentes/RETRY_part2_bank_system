@@ -14,7 +14,7 @@ import java.util.Scanner;
  * provides concrete behavior for the Menu interface.
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class CustomerMenu implements Menu {
     /** The customer using this menu */
@@ -79,6 +79,16 @@ public class CustomerMenu implements Menu {
         }
     }
     
+    
+    private void handlePayment() {
+    }
+
+    private void handleTransfer() {
+    }
+
+    private void handleWithdrawal() {
+    }
+
     @Override
     public String getInput() {
         return scanner.nextLine().trim();

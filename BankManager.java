@@ -206,4 +206,8 @@ public class BankManager extends Person {
         // This will be implemented in the next requirement
         // It will handle reading and processing the Transactions.csv file
     }
+
+    public Optional<Account> lookupAccountByNumber(String accountNumber) {
+        return null; //change
+    }
 }
