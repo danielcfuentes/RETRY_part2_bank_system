@@ -26,6 +26,7 @@ public class BankOperations {
 
     /**
      * Initializes bank operations with customer data and transaction logging.
+     * Sets up bank manager and necessary components.
      * 
      * @param customers map of customer names to Customer objects
      * @param logger transaction logging system
@@ -34,16 +35,16 @@ public class BankOperations {
         this.customers = customers;
         this.scanner = new Scanner(System.in);
         this.logger = logger;
+        // Create bank manager with access to all customers
         this.bankManager = new BankManager("Bank Manager", customers, logger);
     }
 
     /**
      * Handles customer login and menu operations.
-     * Creates a customer menu and manages the customer session.
+     * Verifies customer identity and creates appropriate menu.
      */
     public void handleCustomer() {
         System.out.println("Enter your name:");
-        System.out.println("__________________");
         String name = scanner.nextLine();
         
         Customer customer = customers.get(name);
@@ -58,16 +59,26 @@ public class BankOperations {
 
     /**
      * Handles bank manager operations.
-     * Creates a bank manager menu and manages the manager session.
+     * Creates bank manager menu with full system access.
      */
     public void handleBankManager() {
-        // Create menu with access to the bank manager instance
         currentMenu = new BankManagerMenu(bankManager, logger);
         runMenuLoop();
     }
 
     /**
+     * Updates customer data in the system.
+     * Used after creating new customers or updating existing ones.
+     * 
+     * @param customer the customer to update
+     */
+    public void updateCustomer(Customer customer) {
+        customers.put(customer.getName(), customer);
+    }
+
+    /**
      * Runs the menu loop for the current user (customer or manager).
+     * Handles menu display, input, and processing until exit.
      */
     private void runMenuLoop() {
         boolean continueRunning = true;
@@ -82,5 +93,21 @@ public class BankOperations {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Gets the current bank manager instance.
+     * @return the bank manager
+     */
+    public BankManager getBankManager() {
+        return bankManager;
+    }
+
+    /**
+     * Gets the map of all customers in the system.
+     * @return map of customer names to Customer objects
+     */
+    public Map<String, Customer> getCustomers() {
+        return customers;
     }
 }

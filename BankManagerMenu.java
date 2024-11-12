@@ -2,8 +2,9 @@ import java.util.*;
 
 /**
  * Implements the Menu interface for bank manager operations.
- * This class provides the specific menu functionality for bank managers,
- * allowing them to perform administrative tasks and customer management.
+ * This class provides specific menu functionality for bank managers,
+ * including options for customer account inquiries, creating new users,
+ * and generating reports.
  * 
  * @author Daniel Fuentes, Rogelio Lozano
  * @version 2.0
@@ -80,7 +81,7 @@ public class BankManagerMenu implements Menu {
     
     /**
      * Handles customer account inquiry by name.
-     * Gets first and last name from user and displays all accounts.
+     * Uses bank manager's interactive search when multiple matches exist.
      */
     private void handleNameInquiry() {
         System.out.println("Enter first name:");
@@ -89,17 +90,69 @@ public class BankManagerMenu implements Menu {
         System.out.println("Enter last name:");
         String lastName = getInput();
         
-        List<Account> accounts = bankManager.lookupCustomerByName(firstName, lastName);
-        if (!accounts.isEmpty()) {
-            displayAccounts(accounts);
+        Optional<Customer> customer = bankManager.findCustomerInteractive(firstName, lastName);
+        if (customer.isPresent()) {
+            displayCustomerAccounts(customer.get());
         } else {
-            System.out.println("Customer not found.");
+            System.out.println("No customer found with that name.");
+        }
+    }
+    
+    /**
+     * Handles creation of new customer account.
+     * Collects all necessary information and validates before creation.
+     */
+    private void handleNewCustomer() {
+        try {
+            Map<String, String> userData = new HashMap<>();
+            
+            System.out.println("\nEnter new customer details:");
+            System.out.println("First Name:");
+            userData.put("firstName", getInput());
+            
+            System.out.println("Last Name:");
+            userData.put("lastName", getInput());
+            
+            // Check if name would create invalid duplicate
+            if (!bankManager.createNewCustomer(userData).isPresent()) {
+                System.out.println("Error: Cannot create user with this name.");
+                return;
+            }
+            
+            System.out.println("Date of Birth (DD-MMM-YY):");
+            userData.put("dob", getInput());
+            
+            System.out.println("Address:");
+            userData.put("address", getInput());
+            
+            System.out.println("City:");
+            userData.put("city", getInput());
+            
+            System.out.println("State:");
+            userData.put("state", getInput());
+            
+            System.out.println("ZIP Code:");
+            userData.put("zip", getInput());
+            
+            System.out.println("Phone Number:");
+            userData.put("phone", getInput());
+            
+            System.out.println("Credit Score (300-850):");
+            userData.put("creditScore", getInput());
+            
+            Optional<Customer> newCustomer = bankManager.createNewCustomer(userData);
+            if (newCustomer.isPresent()) {
+                System.out.println("\nNew customer created successfully!");
+                displayCustomerSummary(newCustomer.get());
+            }
+            
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error creating customer: " + e.getMessage());
         }
     }
     
     /**
      * Handles account inquiry by account number.
-     * Searches all customers for matching account number.
      */
     private void handleAccountInquiry() {
         System.out.println("Enter account number:");
@@ -116,74 +169,20 @@ public class BankManagerMenu implements Menu {
     }
     
     /**
-     * Handles creation of new customer account.
-     * Collects all necessary customer information and creates accounts.
-     */
-    private void handleNewCustomer() {
-        try {
-            System.out.println("Enter customer details:");
-            
-            System.out.println("First Name:");
-            String firstName = getInput();
-            
-            System.out.println("Last Name:");
-            String lastName = getInput();
-            
-            System.out.println("Date of Birth (DD-MMM-YY):");
-            String dob = getInput();
-            
-            System.out.println("Address:");
-            String address = getInput();
-            
-            System.out.println("City:");
-            String city = getInput();
-            
-            System.out.println("State:");
-            String state = getInput();
-            
-            System.out.println("ZIP Code:");
-            String zip = getInput();
-            
-            System.out.println("Phone Number:");
-            String phone = getInput();
-            
-            System.out.println("Credit Score (300-850):");
-            int creditScore = Integer.parseInt(getInput());
-            
-            if (creditScore < 300 || creditScore > 850) {
-                throw new IllegalArgumentException("Credit score must be between 300 and 850");
-            }
-            
-            Customer newCustomer = bankManager.createNewCustomer(
-                firstName, lastName, dob, address, city, state, zip, phone, creditScore
-            );
-            
-            System.out.println("\nNew customer created successfully!");
-            displayCustomerSummary(newCustomer);
-            
-        } catch (Exception e) {
-            System.out.println("Error creating customer: " + e.getMessage());
-        }
-    }
-    
-    /**
      * Handles processing of transaction file.
-     * Reads and processes transactions from CSV file.
      */
     private void handleTransactionFile() {
         try {
-            System.out.println("Enter transaction file name (e.g., Transactions.csv):");
+            System.out.println("Enter transaction file name:");
             String filename = getInput();
             bankManager.processTransactionFile(filename);
-            System.out.println("Transaction file processed successfully.");
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error processing transaction file: " + e.getMessage());
         }
     }
     
     /**
      * Handles generation of bank statement for a customer.
-     * Gets customer name and generates comprehensive statement.
      */
     private void handleBankStatement() {
         System.out.println("Enter customer first name:");
@@ -192,9 +191,9 @@ public class BankManagerMenu implements Menu {
         System.out.println("Enter customer last name:");
         String lastName = getInput();
         
-        List<Account> accounts = bankManager.lookupCustomerByName(firstName, lastName);
-        if (!accounts.isEmpty()) {
-            String statement = bankManager.generateBankStatement(accounts.get(0).getOwner());
+        Optional<Customer> customer = bankManager.findCustomerInteractive(firstName, lastName);
+        if (customer.isPresent()) {
+            String statement = bankManager.generateBankStatement(customer.get());
             System.out.println(statement);
         } else {
             System.out.println("Customer not found.");
@@ -202,12 +201,11 @@ public class BankManagerMenu implements Menu {
     }
     
     /**
-     * Helper method to display account information.
-     * 
-     * @param accounts list of accounts to display
+     * Displays all accounts for a customer.
      */
-    private void displayAccounts(List<Account> accounts) {
-        for (Account account : accounts) {
+    private void displayCustomerAccounts(Customer customer) {
+        System.out.println("\nAccounts for " + customer.getName() + ":");
+        for (Account account : customer.getAccounts()) {
             System.out.printf("%s (%s): $%.2f%n",
                 account.getClass().getSimpleName(),
                 account.getAccountNumber(),
@@ -218,14 +216,12 @@ public class BankManagerMenu implements Menu {
     
     /**
      * Displays summary of newly created customer information.
-     * 
-     * @param customer the newly created customer
      */
     private void displayCustomerSummary(Customer customer) {
         System.out.println("\nCustomer Summary:");
         System.out.println("Name: " + customer.getName());
         System.out.println("ID: " + customer.getCustomerID());
         System.out.println("\nAccounts Created:");
-        displayAccounts(customer.getAccounts());
+        displayCustomerAccounts(customer);
     }
 }
