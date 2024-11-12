@@ -6,10 +6,10 @@ import java.util.*;
  * - Generating unique IDs
  * - Creating accounts
  * - Setting credit limits
- * - Handling duplicate names
+ * - Validating new user names
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class NewUsers {
     /** Tracks the last used user ID for generating new IDs */
@@ -23,7 +23,7 @@ public class NewUsers {
 
     /**
      * Initializes the NewUsers handler with existing customer data.
-     * @param customers map of existing customers
+     * @param existingCustomers map of existing customers
      */
     public NewUsers(Map<String, Customer> existingCustomers) {
         this.existingCustomers = existingCustomers;
@@ -42,20 +42,60 @@ public class NewUsers {
     }
 
     /**
+     * Validates if a new customer name would create an invalid duplicate scenario.
+     * Invalid scenario: Customer sharing both first and last name with existing customer.
+     * 
+     * @param firstName proposed first name
+     * @param lastName proposed last name
+     * @return true if name is valid, false if would create invalid duplicate
+     */
+    public boolean isValidNewCustomerName(String firstName, String lastName) {
+        // Check if exact full name already exists
+        String fullName = firstName + " " + lastName;
+        if (existingCustomers.containsKey(fullName)) {
+            return false;
+        }
+
+        // Count matches for first name and last name
+        boolean hasFirstNameMatch = false;
+        boolean hasLastNameMatch = false;
+
+        for (String existingName : existingCustomers.keySet()) {
+            String[] nameParts = existingName.split(" ");
+            if (nameParts[0].equalsIgnoreCase(firstName)) {
+                hasFirstNameMatch = true;
+            }
+            if (nameParts[1].equalsIgnoreCase(lastName)) {
+                hasLastNameMatch = true;
+            }
+
+            // If both match, this would create an invalid duplicate
+            if (hasFirstNameMatch && hasLastNameMatch) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Creates a new customer with all necessary accounts.
-     * Handles duplicate names by adding a unique identifier if needed.
+     * Assumes name has already been validated with isValidNewCustomerName().
      * 
      * @param userData map containing all required customer information
      * @return the newly created Customer object
+     * @throws IllegalArgumentException if required data is missing or invalid
      */
     public Customer createUser(Map<String, String> userData) {
-        // Generate unique customer ID
-        String customerId = generateUserId();
+        // Validate required fields
+        validateUserData(userData);
         
-        // Create customer name, handling duplicates
+        // Generate customer ID
+        String customerId = String.valueOf(++lastUserId);
+        
         String firstName = userData.get("firstName");
         String lastName = userData.get("lastName");
-        String fullName = handleDuplicateName(firstName, lastName);
+        String fullName = firstName + " " + lastName;
         
         // Create new customer object with additional fields
         Customer newCustomer = new Customer(fullName, customerId);
@@ -67,7 +107,7 @@ public class NewUsers {
         newCustomer.setPhoneNumber(userData.get("phone"));
         newCustomer.setCreditScore(Integer.parseInt(userData.get("creditScore")));
         
-        // Generate account numbers and create accounts
+        // Generate accounts
         List<String> accountNumbers = generateAccountNumbers(customerId);
         List<Account> accounts = new ArrayList<>();
         
@@ -86,11 +126,32 @@ public class NewUsers {
     }
 
     /**
-     * Generates a unique user ID by incrementing the last used ID.
-     * @return new user ID as string
+     * Validates that all required user data is present and valid.
+     * 
+     * @param userData map of user data to validate
+     * @throws IllegalArgumentException if data is missing or invalid
      */
-    private String generateUserId() {
-        return String.valueOf(++lastUserId);
+    private void validateUserData(Map<String, String> userData) {
+        String[] requiredFields = {
+            "firstName", "lastName", "dob", "address", "city", 
+            "state", "zip", "phone", "creditScore"
+        };
+        
+        for (String field : requiredFields) {
+            if (!userData.containsKey(field) || userData.get(field).trim().isEmpty()) {
+                throw new IllegalArgumentException("Missing required field: " + field);
+            }
+        }
+        
+        // Validate credit score
+        try {
+            int creditScore = Integer.parseInt(userData.get("creditScore"));
+            if (creditScore < 300 || creditScore > 850) {
+                throw new IllegalArgumentException("Credit score must be between 300 and 850");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid credit score format");
+        }
     }
 
     /**
@@ -128,56 +189,5 @@ public class NewUsers {
         } else {
             return 16000 + random.nextDouble() * (25000 - 16000);
         }
-    }
-
-    /**
-     * Handles duplicate names by adding a unique identifier if needed.
-     * Only handles either same first name or same last name, not both.
-     * 
-     * @param firstName customer's first name
-     * @param lastName customer's last name
-     * @return unique full name for the customer
-     */
-    private String handleDuplicateName(String firstName, String lastName) {
-        String baseFullName = firstName + " " + lastName;
-        
-        // If no duplicate exists, return original name
-        if (!existingCustomers.containsKey(baseFullName)) {
-            return baseFullName;
-        }
-        
-        // Count existing duplicates to generate unique identifier
-        int duplicateCount = 1;
-        for (String existingName : existingCustomers.keySet()) {
-            if (existingName.startsWith(firstName + " ") || existingName.endsWith(" " + lastName)) {
-                duplicateCount++;
-            }
-        }
-        
-        // Add unique identifier to name
-        return baseFullName + " (" + duplicateCount + ")";
-    }
-
-    /**
-     * Finds customers by partial name match.
-     * Can search by either first name or last name.
-     * 
-     * @param searchName name to search for
-     * @param isFirstName true if searching by first name, false for last name
-     * @return list of matching customers
-     */
-    public List<Customer> findCustomersByName(String searchName, boolean isFirstName) {
-        List<Customer> matches = new ArrayList<>();
-        
-        for (Customer customer : existingCustomers.values()) {
-            String[] nameParts = customer.getName().split(" ");
-            String nameToCheck = isFirstName ? nameParts[0] : nameParts[1];
-            
-            if (nameToCheck.equalsIgnoreCase(searchName)) {
-                matches.add(customer);
-            }
-        }
-        
-        return matches;
     }
 }
