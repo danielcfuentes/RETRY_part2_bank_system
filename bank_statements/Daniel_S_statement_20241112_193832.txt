@@ -1,0 +1,46 @@
+================================================================================
+                       EL PASO MINERS BANK
+                        ACCOUNT STATEMENT
+================================================================================
+
+Statement Date: November 12, 2024 19:38:32
+
+--------------------------------------------------------------------------------
+CUSTOMER INFORMATION
+--------------------------------------------------------------------------------
+Customer ID: 96
+Name: Daniel S
+Address: null
+         null, null null
+Phone: null
+
+--------------------------------------------------------------------------------
+ACCOUNT SUMMARY
+--------------------------------------------------------------------------------
+Checkings Account (1095)
+Current Balance: $54762.26
+
+Savings Account (2095)
+Current Balance: $2944.12
+
+Credit Account (3095)
+Credit Limit: $7282.00
+Current Balance: $-718.69
+Available Credit: $6563.31
+
+
+--------------------------------------------------------------------------------
+TRANSACTION HISTORY
+--------------------------------------------------------------------------------
+Session Start: November 12, 2024 19:38:24
+
+No transactions in current session.
+
+================================================================================
+                    End of Statement
+================================================================================
+
+For questions or concerns:
+Call: 1-800-MINERS-BANK
+Visit: www.elpasominersbank.com
+Email: support@elpasominersbank.com

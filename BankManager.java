@@ -43,6 +43,16 @@ public class BankManager extends Person {
     }
 
     /**
+     * Returns the map of all customers in the system.
+     * @return map of all customers in the system
+     */
+    public Map<String, Customer> getCustomers() {
+        return customers;
+
+    }
+
+
+    /**
      * Creates a new customer account with all required information.
      * Validates name for duplicates and creates all necessary accounts.
      * 
@@ -144,12 +154,10 @@ public class BankManager extends Person {
     private Optional<Customer> selectCustomerFromList(List<Customer> customers) {
         for (int i = 0; i < customers.size(); i++) {
             Customer c = customers.get(i);
-            System.out.printf("%d. %s (ID: %s) - %s, %s%n",
+            System.out.printf("%d. %s (ID: %s)%n",
                 i + 1,
                 c.getName(),
-                c.getCustomerID(),
-                c.getCity(),
-                c.getState()
+                c.getCustomerID()
             );
         }
         
@@ -167,36 +175,24 @@ public class BankManager extends Person {
     }
 
     /**
-     * Generates a bank statement for a specific customer.
-     * 
+     * Generates a bank statement for a specific customer
      * @param customer the customer to generate statement for
-     * @return formatted bank statement string
+     * @return filename of generated statement
      */
     public String generateBankStatement(Customer customer) {
-        StringBuilder statement = new StringBuilder();
-        
-        statement.append("BANK STATEMENT\n");
-        statement.append("Date: ").append(new Date()).append("\n\n");
-        statement.append("Customer: ").append(customer.getName()).append("\n");
-        statement.append("Customer ID: ").append(customer.getCustomerID()).append("\n");
-        statement.append("Address: ").append(customer.getAddress()).append("\n");
-        statement.append(customer.getCity()).append(", ");
-        statement.append(customer.getState()).append(" ");
-        statement.append(customer.getZipCode()).append("\n");
-        statement.append("Phone: ").append(customer.getPhoneNumber()).append("\n\n");
-        
-        statement.append("ACCOUNT SUMMARY\n");
-        for (Account account : customer.getAccounts()) {
-            statement.append(account.getClass().getSimpleName())
-                    .append(" (").append(account.getAccountNumber()).append(")\n");
-            statement.append("Current Balance: $")
-                    .append(String.format("%.2f", account.getBalance())).append("\n\n");
+        try {
+            BankStatement statement = new BankStatement(customer, logger);
+            String filename = statement.generateStatement();
+            
+            logger.logTransaction(
+                "Bank statement generated for: " + customer.getName(),
+                "Bank Manager"
+            );
+            
+            return filename;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to generate bank statement: " + e.getMessage());
         }
-        
-        logger.logTransaction("Bank Manager generated statement for: " + customer.getName(),
-                              "Bank Manager");
-        
-        return statement.toString();
     }
 
     /**

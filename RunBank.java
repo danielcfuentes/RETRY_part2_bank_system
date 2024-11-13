@@ -51,9 +51,9 @@ public class RunBank {
             }
 
             // save and exit
+            System.out.println("\nSaving updated customer data...");
             csvHandler.saveCustomerData(customers);
             logger.exitUpdate();
-            System.out.println("____________________");
             System.out.println("Thank you for using El Paso Miners Bank!");
             
         } catch (Exception e) {

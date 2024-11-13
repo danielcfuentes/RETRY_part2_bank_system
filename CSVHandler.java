@@ -10,15 +10,14 @@ import java.util.*;
  * - Handling dynamic column positions in CSV files
  * - Maintaining data integrity during file operations
  * 
- * The class uses a mapping system to handle CSV files where columns may appear
- * in different orders, making it flexible to format changes.
- * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 2.0
+ * @version 2.1
  */
 public class CSVHandler {
-    /** The file path for bank users data */
-    private static final String CSV_FILE = "CS 3331 - Bank Users.csv";
+    /** The file path for original bank users data */
+    private static final String ORIGINAL_CSV_FILE = "CS 3331 - Bank Users.csv";
+    /** The file path for updated bank users data */
+    private static final String UPDATED_CSV_FILE = "Updated_Bank_Users.csv";
     
     /** Maps column names to their positions in the CSV */
     private Map<String, Integer> columnMap;
@@ -42,7 +41,7 @@ public class CSVHandler {
      * @throws IOException if there's an error reading the file
      */
     private void initializeColumnMap() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(ORIGINAL_CSV_FILE))) {
             // Read and parse the header line
             String headerLine = reader.readLine();
             if (headerLine == null) {
@@ -76,7 +75,7 @@ public class CSVHandler {
             initializeColumnMap();
             
             // Now read the actual customer data
-            try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(ORIGINAL_CSV_FILE))) {
                 // Skip the header line since we already processed it
                 reader.readLine();
                 
@@ -105,29 +104,23 @@ public class CSVHandler {
                         List<Account> accounts = new ArrayList<>();
                         
                         // Create Checking account
-                        Account checking = new Checkings(
+                        accounts.add(new Checkings(
                             parts[columnMap.get("Checking Account Number")],
                             Double.parseDouble(parts[columnMap.get("Checking Starting Balance")])
-                        );
-                        checking.setOwner(customer);
-                        accounts.add(checking);
+                        ));
                         
                         // Create Savings account
-                        Account savings = new Savings(
+                        accounts.add(new Savings(
                             parts[columnMap.get("Savings Account Number")],
                             Double.parseDouble(parts[columnMap.get("Savings Starting Balance")])
-                        );
-                        savings.setOwner(customer);
-                        accounts.add(savings);
+                        ));
                         
                         // Create Credit account
-                        Account credit = new Credit(
+                        accounts.add(new Credit(
                             parts[columnMap.get("Credit Account Number")],
                             Double.parseDouble(parts[columnMap.get("Credit Starting Balance")]),
                             Double.parseDouble(parts[columnMap.get("Credit Max")])
-                        );
-                        credit.setOwner(customer);
-                        accounts.add(credit);
+                        ));
                         
                         // Associate accounts with customer and add to customers map
                         customer.setAccounts(accounts);
@@ -156,6 +149,14 @@ public class CSVHandler {
      * 2. Updates only the balance fields for each customer
      * 3. Maintains the original column order
      * 4. Handles any errors during the saving process
+
+    /**
+     * Saves all customer data to a new CSV file.
+     * This method:
+     * 1. Creates a new CSV file for updated data
+     * 2. Preserves the original CSV structure and format
+     * 3. Updates account balances with current values
+     * 4. Does not modify the original input file
      * 
      * @param customers Map of customer names to Customer objects to save
      */
@@ -165,7 +166,7 @@ public class CSVHandler {
             List<String> lines = new ArrayList<>();
             
             // Read the original file to preserve structure
-            try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(ORIGINAL_CSV_FILE))) {
                 // Keep the header line exactly as is
                 lines.add(reader.readLine());
                 
@@ -197,15 +198,17 @@ public class CSVHandler {
                 }
             }
             
-            // Write everything back to the file
-            try (FileWriter writer = new FileWriter(CSV_FILE)) {
+            // Write everything to the new file
+            try (FileWriter writer = new FileWriter(UPDATED_CSV_FILE)) {
                 for (String line : lines) {
                     writer.write(line + "\n");
                 }
             }
             
+            System.out.println("Updated customer data saved to: " + UPDATED_CSV_FILE);
+            
         } catch (IOException e) {
-            System.out.println("Error saving customer data: " + e.getMessage());
+            System.err.println("Error saving customer data: " + e.getMessage());
             e.printStackTrace();
         }
     }

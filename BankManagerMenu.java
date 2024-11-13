@@ -216,18 +216,59 @@ private void handleNewCustomer() {
      * Handles generation of bank statement for a customer.
      */
     private void handleBankStatement() {
-        System.out.println("Enter customer first name:");
-        String firstName = getInput();
-        
-        System.out.println("Enter customer last name:");
-        String lastName = getInput();
-        
-        Optional<Customer> customer = bankManager.findCustomerInteractive(firstName, lastName);
-        if (customer.isPresent()) {
-            String statement = bankManager.generateBankStatement(customer.get());
-            System.out.println(statement);
-        } else {
-            System.out.println("Customer not found.");
+        try {
+            System.out.println("\nSearch by:");
+            System.out.println("1. Customer Name");
+            System.out.println("2. Customer ID");
+            String choice = getInput();
+            
+            Customer customer = null;
+            
+            switch (choice) {
+                case "1":
+                    System.out.println("Enter customer full name:");
+                    String name = getInput();
+                    String[] nameParts = name.split(" ");
+                    if (nameParts.length == 2) {
+                        Optional<Customer> found = bankManager.findCustomerInteractive(
+                            nameParts[0], nameParts[1]);
+                        if (found.isPresent()) {
+                            customer = found.get();
+                        }
+                    } else {
+                        System.out.println("Please enter both first and last name.");
+                        return;
+                    }
+                    break;
+                    
+                case "2":
+                    System.out.println("Enter customer ID:");
+                    String id = getInput();
+                    // Search for customer by ID
+                    for (Customer c : bankManager.getCustomers().values()) {
+                        if (c.getCustomerID().equals(id)) {
+                            customer = c;
+                            break;
+                        }
+                    }
+                    break;
+                    
+                default:
+                    System.out.println("Invalid choice.");
+                    return;
+            }
+            
+            if (customer == null) {
+                System.out.println("Customer not found.");
+                return;
+            }
+            
+            String filename = bankManager.generateBankStatement(customer);
+            System.out.println("\nBank statement generated successfully!");
+            System.out.println("File saved as: " + filename);
+            
+        } catch (Exception e) {
+            System.out.println("Error generating bank statement: " + e.getMessage());
         }
     }
     

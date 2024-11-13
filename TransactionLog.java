@@ -142,4 +142,21 @@ public class TransactionLog {
             System.err.println("Error updating transaction log on exit: " + e.getMessage());
         }
     }
+
+    /**
+     * Gets all transactions for a specific customer from the log.
+     * @param customerName name of the customer
+     * @return list of transactions involving this customer
+     */
+    public List<String> getCustomerTransactions(String customerName) {
+        List<String> customerTransactions = new ArrayList<>();
+        
+        for (String log : currentLogs) {
+            if (log.contains(customerName)) {
+                customerTransactions.add(log);
+            }
+        }
+        
+        return customerTransactions;
+    }
 }
