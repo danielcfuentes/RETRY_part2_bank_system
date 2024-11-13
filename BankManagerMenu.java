@@ -108,24 +108,24 @@ private void handleNewCustomer() {
         
         System.out.println("\nEnter new customer details:");
         
-        // Get name information first
+        //get name information first
         System.out.println("First Name:");
         String firstName = getInput();
         System.out.println("Last Name:");
         String lastName = getInput();
         
-        // Check for name conflicts before proceeding
+        //check for name conflicts before proceeding
         if (!bankManager.newUsersHandler.isValidNewCustomerName(firstName, lastName)) {
             System.out.println("Error: A customer with same first AND last name already exists,");
             System.out.println("or multiple customers with same first AND last name would exist.");
             return;
         }
         
-        // Store name data
+        //store name data
         userData.put("firstName", firstName);
         userData.put("lastName", lastName);
         
-        // Get remaining required information
+        //get remaining required information
         System.out.println("Date of Birth (DD-MMM-YY):");
         userData.put("dob", getInput());
         
@@ -144,7 +144,7 @@ private void handleNewCustomer() {
         System.out.println("Phone Number (XXX-XXX-XXXX):");
         userData.put("phone", getInput());
         
-        // Get and validate credit score
+        //get and validate credit score
         while (true) {
             try {
                 System.out.println("Credit Score (300-850):");
@@ -161,13 +161,13 @@ private void handleNewCustomer() {
             }
         }
         
-        // Now create the customer with complete data
+        //create the customer with complete data
         Optional<Customer> newCustomer = bankManager.createNewCustomer(userData);
         if (newCustomer.isPresent()) {
             System.out.println("\nNew customer created successfully!");
             displayCustomerSummary(newCustomer.get());
             
-            // Log the creation
+            //log the creation
             logger.logTransaction(
                 String.format("Created new customer: %s %s (ID: %s)", 
                     firstName, lastName, newCustomer.get().getCustomerID()),
@@ -244,7 +244,7 @@ private void handleNewCustomer() {
                 case "2":
                     System.out.println("Enter customer ID:");
                     String id = getInput();
-                    // Search for customer by ID
+                    //search for customer by ID
                     for (Customer c : bankManager.getCustomers().values()) {
                         if (c.getCustomerID().equals(id)) {
                             customer = c;

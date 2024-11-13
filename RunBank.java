@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Main class for the banking application.
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class RunBank {
     /**

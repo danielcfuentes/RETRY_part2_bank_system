@@ -1,8 +1,5 @@
 /**
- * Menu interface defines the contract for different types of menus in the banking system.
- * This interface is part of the Strategy pattern implementation, allowing different
- * menu behaviors to be swapped at runtime while maintaining a consistent interface.
- * 
+ * Menu interface defines different types of menus in the banking system.
  * Each menu type (customer menu, bank manager menu) will implement this interface
  * but provide its own specific implementation of how to:
  * - Display menu options
@@ -28,8 +25,8 @@ public interface Menu {
     boolean handleChoice(String choice);
     
     /**
-     * Gets input from the user in a standardized way.
-     * This method can be customized by each menu type to handle specific input requirements.
+     * Gets input from the user
+     * This method is customized by each menu type to handle specific input requirements.
      * 
      * @return the user's input as a String
      */

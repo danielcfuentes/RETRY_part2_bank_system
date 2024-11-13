@@ -9,19 +9,33 @@ import java.util.*;
  * - Validating new user names
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 2.0
+ * @version 1.0
  */
 public class NewUsers {
+
+    /** The last used user ID to be able to increase it for a new customer */
     private int lastUserId;
+
+    /** A Map to store existing customers */
     private Map<String, Customer> existingCustomers;
+
+    /** A random number generator for generating credit limits. */
     private Random random;
 
+    /**
+     * Creates a new instance of the `NewUsers` class.
+     * 
+     * @param existingCustomers a map of existing customers by their full names
+     */
     public NewUsers(Map<String, Customer> existingCustomers) {
         this.existingCustomers = existingCustomers;
         this.random = new Random();
         initializeLastUserId();
     }
 
+    /**
+     * Initializes the last user ID based on existing customers.
+     */
     private void initializeLastUserId() {
         lastUserId = existingCustomers.values().stream()
             .mapToInt(c -> Integer.parseInt(c.getCustomerID()))
@@ -29,13 +43,20 @@ public class NewUsers {
             .orElse(0);
     }
 
+    /**
+     * Checks whether the provided first and last name combination can be used for a new customer.
+     * 
+     * @param firstName the first name of the customer
+     * @param lastName the last name of the customer
+     * @return true if the name is valid for a new customer, false otherwise
+     */
     public boolean isValidNewCustomerName(String firstName, String lastName) {
-        // Count customers with matching first name and last name
+        //count customers with matching first name and last name
         int firstNameMatches = 0;
         int lastNameMatches = 0;
         String fullName = firstName + " " + lastName;
 
-        // Check if exact full name already exists
+        //check if exact full name already exists
         if (existingCustomers.containsKey(fullName)) {
             return false;
         }
@@ -49,7 +70,7 @@ public class NewUsers {
                 lastNameMatches++;
             }
 
-            // If we find matches for both first and last name, it's invalid
+            //if we find matches for both first and last name, it's invalid
             if (firstNameMatches > 0 && lastNameMatches > 0) {
                 return false;
             }
@@ -58,21 +79,29 @@ public class NewUsers {
         return true;
     }
 
+
+    /**
+     * Creates a new customer using the provided user data.
+     * 
+     * @param userData a map containing the required fields for creating a new customer
+     * @return a `Customer` object representing the newly created customer
+     * @throws IllegalArgumentException if required fields are missing or invalid
+     */
     public Customer createUser(Map<String, String> userData) {
-        // Validate required fields
+        //check if we have the required fields
         validateUserData(userData);
         
-        // Generate customer ID
+        //generate customer ID
         String customerId = String.valueOf(++lastUserId);
         
         String firstName = userData.get("firstName");
         String lastName = userData.get("lastName");
         String fullName = firstName + " " + lastName;
         
-        // Create new customer object
+        //create new customer object
         Customer newCustomer = new Customer(fullName, customerId);
         
-        // Set customer details
+        //set customer details
         newCustomer.setDateOfBirth(userData.get("dob"));
         newCustomer.setAddress(userData.get("address"));
         newCustomer.setCity(userData.get("city"));
@@ -81,11 +110,11 @@ public class NewUsers {
         newCustomer.setPhoneNumber(userData.get("phone"));
         newCustomer.setCreditScore(Integer.parseInt(userData.get("creditScore")));
         
-        // Generate account numbers
+        //generate account numbers
         List<String> accountNumbers = generateAccountNumbers(customerId);
         List<Account> accounts = new ArrayList<>();
         
-        // Create accounts
+        //create accounts
         Account checking = new Checkings(accountNumbers.get(0), 0.0);
         checking.setOwner(newCustomer);
         accounts.add(checking);
@@ -103,6 +132,12 @@ public class NewUsers {
         return newCustomer;
     }
 
+    /**
+     * Validates the provided user data to ensure all required fields are present and correctly formatted.
+     * 
+     * @param userData a map containing user data fields
+     * @throws IllegalArgumentException if any required fields are missing or invalid
+     */
     private void validateUserData(Map<String, String> userData) {
         String[] requiredFields = {
             "firstName", "lastName", "dob", "address", "city", 
@@ -121,7 +156,7 @@ public class NewUsers {
                 String.join(", ", missingFields));
         }
         
-        // Validate credit score
+        //check credit score
         try {
             int creditScore = Integer.parseInt(userData.get("creditScore"));
             if (creditScore < 300 || creditScore > 850) {
@@ -132,15 +167,28 @@ public class NewUsers {
         }
     }
 
+    /**
+     * Generates unique account numbers for the new customer.
+     * We use the customer ID to generate unique account numbers.
+     * 
+     * @param customerId the unique customer ID
+     * @return a list of account numbers for checking, savings, and credit accounts
+     */
     private List<String> generateAccountNumbers(String customerId) {
         String paddedId = String.format("%03d", Integer.parseInt(customerId));
         return Arrays.asList(
-            "1" + paddedId,  // Checking
-            "2" + paddedId,  // Savings
-            "3" + paddedId   // Credit
+            "1" + paddedId,
+            "2" + paddedId,
+            "3" + paddedId
         );
     }
 
+    /**
+     * Determines the credit limit for a customer based on their credit score.
+     * 
+     * @param creditScore the credit score of the customer
+     * @return the calculated credit limit
+     */
     private double getCreditLimit(int creditScore) {
         if (creditScore <= 580) {
             return 100 + random.nextDouble() * (699 - 100);

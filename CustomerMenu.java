@@ -11,7 +11,7 @@ import java.io.IOException;
  * - Generate transaction history
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 2.0
+ * @version 1.0
  */
 public class CustomerMenu implements Menu {
     /** The customer using this menu */
@@ -39,7 +39,7 @@ public class CustomerMenu implements Menu {
         this.scanner = new Scanner(System.in);
         this.bankManager = bankManager;
         
-        // Record starting balances for transaction history
+        //record starting balances for transaction history
         logger.recordSessionStart(customer.getName(), customer.getAccounts());
     }
 
@@ -110,8 +110,7 @@ public class CustomerMenu implements Menu {
                 account.getBalance()
             );
             System.out.println("__________________");
-            
-            // Log the balance inquiry
+
             logger.logTransaction(
                 String.format("%s made a balance inquiry on %s. Balance: $%.2f",
                     customer.getName(),
@@ -127,16 +126,16 @@ public class CustomerMenu implements Menu {
      * Allows customer to select account and specify amount to deposit.
      */
     private void handleDeposit() {
-        // Display available accounts
+        //display available accounts
         displayAccountsForSelection();
         
         try {
-            // Get account selection
+            //get account selection
             System.out.print("Select account (1-" + customer.getAccounts().size() + "): ");
             int accountIndex = Integer.parseInt(getInput()) - 1;
             
             if (accountIndex >= 0 && accountIndex < customer.getAccounts().size()) {
-                // Get deposit amount
+                //get deposit amount
                 System.out.println("Enter amount to deposit:");
                 System.out.println("__________________");
                 double amount = Double.parseDouble(getInput());
@@ -268,7 +267,7 @@ public class CustomerMenu implements Menu {
             System.out.println("__________________");
             String recipientName = getInput();
             
-            // Get recipient from bank manager
+            //get recipient from bank manager
             Optional<Customer> recipientOpt = bankManager
                 .findCustomerInteractive(
                     recipientName.split(" ")[0], 
@@ -287,7 +286,7 @@ public class CustomerMenu implements Menu {
                 return;
             }
 
-            // Show payer's accounts
+            //show payer's accounts
             List<Account> payerAccounts = customer.getAccounts();
             System.out.println("\nYour accounts:");
             for (int i = 0; i < payerAccounts.size(); i++) {
@@ -301,7 +300,7 @@ public class CustomerMenu implements Menu {
             System.out.print("Select your account (1-" + payerAccounts.size() + "): ");
             int fromAccount = Integer.parseInt(getInput()) - 1;
 
-            // Show recipient's accounts
+            //show recipient's accounts
             List<Account> recipientAccounts = recipient.getAccounts();
             System.out.println("\nRecipient's accounts:");
             for (int i = 0; i < recipientAccounts.size(); i++) {
@@ -344,7 +343,7 @@ public class CustomerMenu implements Menu {
     }
 
     /**
-     * Handles generation of transaction history for current session.
+     * Handles creation of transaction history for current session.
      * Creates a txt file with all account and transaction information.
      */
     private void handleTransactionHistory() {

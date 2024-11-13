@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Manages all banking operations and coordinates between users and the system.
- * This class acts as a facade, simplifying the interface between the UI and
+ * This class simplifying the interface between the UI and
  * the business logic of the banking system.
  * 
  * @author Daniel Fuentes, Rogelio Lozano
@@ -35,7 +35,7 @@ public class BankOperations {
         this.customers = customers;
         this.scanner = new Scanner(System.in);
         this.logger = logger;
-        // Create bank manager with access to all customers
+        //create bank manager with access to all customers
         this.bankManager = new BankManager("Bank Manager", customers, logger);
     }
 

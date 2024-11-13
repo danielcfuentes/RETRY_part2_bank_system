@@ -111,3 +111,6 @@ Daniel S made a balance inquiry on 3095. Balance: $-718.69
 2024-11-12 20:34:59 - Daniel A transferred $1000.00 from 1078 to 2078
 2024-11-12 20:35:18 - Daniel A paid Daniel S $100.00
 2024-11-12 20:50:04 - Daniel A transferred $100.00 from 1078 to 2078
+2024-11-12 21:31:22 - Daniel A made a balance inquiry on 1078. Balance: $857.56
+2024-11-12 21:31:22 - Daniel A made a balance inquiry on 2078. Balance: $3364.79
+2024-11-12 21:31:22 - Daniel A made a balance inquiry on 3078. Balance: $-786.93

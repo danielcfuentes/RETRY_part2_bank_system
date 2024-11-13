@@ -135,22 +135,22 @@ public abstract class Person {
      * @param amount amount fo money to pay
      */
     public void pay(Person receiver, Account fromAccount, Account toAccount, double amount) {
-        // Validate payment to self
+        //validate payment to self
         if (this == receiver || this.getName().equals(receiver.getName())) {
             throw new IllegalArgumentException("Error: Cannot make payments to yourself. Please select a different recipient.");
         }
 
-        // Validate same account transfers
+        //validate same account transfers
         if (fromAccount.getAccountNumber().equals(toAccount.getAccountNumber())) {
             throw new IllegalArgumentException("Cannot transfer between the same account");
         }
 
-        // Validate amount
+        //validate amount
         if (amount <= 0) {
             throw new IllegalArgumentException("Payment amount must be positive");
         }
         
-        // Validate account ownership
+        //validate account ownership
         if (!this.accounts.contains(fromAccount)) {
             throw new IllegalArgumentException("Source account does not belong to you");
         }
@@ -159,7 +159,7 @@ public abstract class Person {
             throw new IllegalArgumentException("Destination account does not belong to receiver");
         }
 
-        // Handle credit card payment limitations
+        //handle credit card payment limitations
         if (toAccount instanceof Credit) {
             Credit creditAccount = (Credit) toAccount;
             if (amount > Math.abs(creditAccount.getBalance())) {
@@ -171,11 +171,11 @@ public abstract class Person {
         }
         
         try {
-            // Perform the transaction
+            //do the transaction
             fromAccount.withdraw(amount);
             toAccount.deposit(amount);
             
-            // Log successful payment
+            //log successful payment
             String message = String.format("%s paid %s $%.2f successfully",
                 this.getName(), receiver.getName(), amount);
             System.out.println(message);

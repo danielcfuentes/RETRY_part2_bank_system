@@ -4,27 +4,53 @@
  * @version 2.0
  */
 public class Credit extends Account {
+
+    /** The credit limit for the account. */
     private double creditLimit;
+
+    /** The principle amount of the credit account. */
     private double principle;
     
+    /**
+     * Constructs a new Credit account with the given account number, balance, and credit limit.
+     * @param accountNumber the account number
+     * @param balance the initial balance
+     * @param creditLimit the credit limit
+     */
     public Credit(String accountNumber, double balance, double creditLimit) {
         super(accountNumber, balance);
         this.creditLimit = creditLimit;
         this.principle = Math.abs(balance);
     }
 
+    /**
+     * Returns the credit limit for the account.
+     * @return the credit limit
+     */
     public double getCreditLimit() {
         return creditLimit;
     }
 
+    /**
+     * Sets the credit limit for the account.
+     * @param creditLimit the new credit limit
+     */
     public void setCreditLimit(double creditLimit) {
         this.creditLimit = creditLimit;
     }
 
+    /**
+     * Returns the principle amount of the credit account.
+     * @return the principle amount
+     */
     public double getPrinciple() {
         return principle;
     }
 
+    /**
+     * Sets the principle amount of the credit account.
+     * @param principle the new principle amount
+     */
     public void setPrinciple(double principle) {
         this.principle = principle;
     }

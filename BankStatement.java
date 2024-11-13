@@ -6,19 +6,34 @@ import java.time.format.DateTimeFormatter;
 /**
  * Generates bank statements for customers including personal information,
  * account details, and transaction history.
+ * 
+ * @author Daniel Camilo Fuentes, Rogelio Lozano
+ * @version 1.0
  */
 public class BankStatement {
+    /** Directory of where we are storing the bank statements */
     private static final String STATEMENT_DIR = "bank_statements/";
+
+    /** Customer for whom the statement is being generated */
     private Customer customer;
+
+    /** Transaction log for the bank */
     private TransactionLog logger;
+
+    /** Map to store starting balances for each account */
     private Map<String, Double> startingBalances;
 
+    /**
+     * Constructs a new BankStatement object.
+     * @param customer the customer for whom the statement is being generated
+     * @param logger the transaction log for the bank
+     */
     public BankStatement(Customer customer, TransactionLog logger) {
         this.customer = customer;
         this.logger = logger;
         this.startingBalances = new HashMap<>();
         
-        // Create directory if it doesn't exist
+        //create directory if it doesn't exist
         new File(STATEMENT_DIR).mkdirs();
     }
 
@@ -44,6 +59,10 @@ public class BankStatement {
         return filename;
     }
 
+    /**
+     * Writes the header of the bank statement.
+     * @param writer the PrintWriter to write the header to
+     */
     private void writeHeader(PrintWriter writer) {
         writer.println("=".repeat(80));
         writer.println("                       EL PASO MINERS BANK");
@@ -55,6 +74,10 @@ public class BankStatement {
         writer.println();
     }
 
+    /**
+     * Writes the customer information to the bank statement.
+     * @param writer the PrintWriter to write the customer information to
+     */
     private void writeCustomerInfo(PrintWriter writer) {
         writer.println("-".repeat(80));
         writer.println("CUSTOMER INFORMATION");
@@ -66,6 +89,10 @@ public class BankStatement {
         writer.println();
     }
 
+    /**
+     * Writes the account summary to the bank statement.
+     * @param writer the PrintWriter to write the account summary to
+     */
     private void writeAccountSummary(PrintWriter writer) {
         writer.println("-".repeat(80));
         writer.println("ACCOUNT SUMMARY");
@@ -91,6 +118,10 @@ public class BankStatement {
         writer.println();
     }
 
+    /**
+     * Writes the transaction history to the bank statement.
+     * @param writer the PrintWriter to write the transaction history to
+     */
     private void writeTransactionHistory(PrintWriter writer) {
         writer.println("-".repeat(80));
         writer.println("TRANSACTION HISTORY");
@@ -99,12 +130,12 @@ public class BankStatement {
         List<String> allTransactions = logger.getCustomerTransactions(customer.getName());
         List<String> relevantTransactions = new ArrayList<>();
         
-        // Filter transactions to only include ones directly involving this customer
+        //filter transactions to only include ones directly involving this customer
         for (String transaction : allTransactions) {
-            // Check for the exact customer name (to avoid partial matches)
+            //check for the exact customer name (to avoid partial matches)
             if (transaction.matches(".*\\b" + customer.getName() + "\\b.*") &&
-                !transaction.contains("Bank Manager") &&  // Exclude bank manager logs
-                !transaction.contains("created new customer")) {  // Exclude customer creation logs
+                !transaction.contains("Bank Manager") &&
+                !transaction.contains("created new customer")) {
                 
                 relevantTransactions.add(transaction);
             }
@@ -113,10 +144,10 @@ public class BankStatement {
         if (relevantTransactions.isEmpty()) {
             writer.println("No transactions found for this customer.");
         } else {
-            // Sort transactions by date if they have timestamps
+            //sort transactions by date if they have timestamps
             relevantTransactions.sort((a, b) -> {
                 try {
-                    String dateA = a.substring(0, 19); // "yyyy-MM-dd HH:mm:ss"
+                    String dateA = a.substring(0, 19);
                     String dateB = b.substring(0, 19);
                     return dateA.compareTo(dateB);
                 } catch (Exception e) {
@@ -131,6 +162,10 @@ public class BankStatement {
         writer.println();
     }
 
+    /**
+     * Writes the footer of the bank statement.
+     * @param writer the PrintWriter to write the footer to
+     */
     private void writeFooter(PrintWriter writer) {
         writer.println("=".repeat(80));
         writer.println("                    End of Statement");
@@ -138,7 +173,6 @@ public class BankStatement {
         writer.println();
         writer.println("For questions or concerns:");
         writer.println("Call: 1-800-MINERS-BANK");
-        writer.println("Visit: www.elpasominersbank.com");
         writer.println("Email: support@elpasominersbank.com");
     }
 }

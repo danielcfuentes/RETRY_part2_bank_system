@@ -27,22 +27,42 @@ public abstract class Account {
     /** Default constructor for account. */
     public Account() {}
 
+    /**
+     * Sets the owner of the account.
+     * @param owner the owner of the account
+     */
     public void setOwner(Customer owner) {
         this.owner = owner;
     }
 
+    /**
+     * Returns the owner of the account.
+     * @return the owner of the account
+     */
     public Customer getOwner() {
         return owner;
     }
 
+    /**
+     * Sets the transaction log for the account.
+     * @param log the transaction log for the account
+     */
     public static void setTransactionLog(TransactionLog log) {
         transactionLog = log;
     }
 
+    /**
+     * Returns the balance for the account.
+     * @return the balance for the account
+     */   
     public double getBalance() {
         return balance;
     }
     
+    /**
+     * Sets the balance for the account.
+     * @param balance the new balance for the account
+     */
     public void setBalance(double balance) {
         if (!(this instanceof Credit) && balance < 0) {
             throw new IllegalArgumentException("Account balance cannot be negative");
@@ -50,12 +70,16 @@ public abstract class Account {
         this.balance = balance;
     }
     
+    /**
+     * Returns the account number.
+     * @return the account number
+     */
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
-     * Returns the current balance.
+     * Inquires the current balance.
      * @return the current balance in the account
      */
     public double inquireBalance() {
@@ -78,7 +102,7 @@ public abstract class Account {
             throw new IllegalArgumentException("Deposit amount must be positive");
         }
 
-        // For credit accounts, validate against outstanding balance
+        //for credit accounts, validate against outstanding balance
         if (this instanceof Credit) {
             Credit creditAccount = (Credit) this;
             if (Math.abs(balance) < amount) {

@@ -44,14 +44,14 @@ public class TransactionLog {
      * @param accounts list of customer's accounts
      */
     public void recordSessionStart(String customerName, List<Account> accounts) {
-        // Record starting balances
+        //record starting balances
         Map<String, Double> balances = new HashMap<>();
         for (Account account : accounts) {
             balances.put(account.getAccountNumber(), account.getBalance());
         }
         sessionStartBalances.put(customerName, balances);
         
-        // Initialize session transactions list for this customer
+        //initialize session transactions list for this customer
         sessionTransactions.put(customerName, new ArrayList<>());
     }
 
@@ -99,15 +99,15 @@ public class TransactionLog {
             java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String logEntry = timestamp + " - " + transaction;
         
-        // Add to main transaction log
+        //add to main transaction log
         currentLogs.add(logEntry);
         
-        // If this is a session transaction, add to session log
+        //if this is a session transaction, add to session log
         if (sessionTransactions.containsKey(customerName)) {
             sessionTransactions.get(customerName).add(logEntry);
         }
         
-        // Write to file immediately
+        //write to file immediately
         try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
             writer.write(logEntry + "\n");
         } catch (IOException e) {
@@ -115,6 +115,9 @@ public class TransactionLog {
         }
     }
 
+    /**
+     * Gets all transactions from the log.
+     */
     private void loadExistingLogs() {
         try {
             File file = new File(LOG_FILE);
@@ -133,6 +136,9 @@ public class TransactionLog {
         }
     }
 
+    /**
+     * Updates the transaction log file with the current logs and exits.
+     */
     public void exitUpdate() {
         try (FileWriter writer = new FileWriter(LOG_FILE)) {
             for (String log : currentLogs) {

@@ -8,7 +8,7 @@ import java.time.format.*;
  * Creates formatted txt files containing session-specific information.
  * 
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 2.0
+ * @version 1.0
  */
 public class TransactionHistory {
     /** Directory where transaction history files are stored */
@@ -35,8 +35,6 @@ public class TransactionHistory {
     public TransactionHistory(Customer customer, TransactionLog transactionLog) {
         this.customer = customer;
         this.transactionLog = transactionLog;
-        
-        // Ensure history directory exists
         new File(HISTORY_DIR).mkdirs();
     }
 
@@ -48,12 +46,12 @@ public class TransactionHistory {
      * @throws IOException if file creation fails
      */
     public String generateHistoryFile() throws IOException {
-        // Get customer's first and last name
+        //get customer's first and last name
         String[] nameParts = customer.getName().split(" ");
         String firstName = nameParts[0];
         String lastName = nameParts[1];
         
-        // Generate filename with timestamp
+        //generate filename with timestamp
         String fileName = String.format("%s_%s_Transactions_%s.txt",
             firstName,
             lastName,
@@ -63,13 +61,13 @@ public class TransactionHistory {
         String fullPath = HISTORY_DIR + fileName;
         
         try (PrintWriter writer = new PrintWriter(new FileWriter(fullPath))) {
-            // Write header
+            //write header
             writeHeader(writer);
             
-            // Write account information
+            //write account information
             writeAccountInformation(writer);
             
-            // Write transactions
+            //write transactions
             writeTransactions(writer);
             
             writer.flush();
@@ -80,6 +78,7 @@ public class TransactionHistory {
 
     /**
      * Writes the header section of the history file.
+     * @param writer the PrintWriter to write to
      */
     private void writeHeader(PrintWriter writer) {
         writer.println("TRANSACTION HISTORY FOR: " + customer.getName());
@@ -91,6 +90,7 @@ public class TransactionHistory {
 
     /**
      * Writes account information section with starting and current balances.
+     * @param writer the PrintWriter to write to
      */
     private void writeAccountInformation(PrintWriter writer) {
         writer.println("ACCOUNT INFORMATION:");
@@ -112,6 +112,7 @@ public class TransactionHistory {
 
     /**
      * Writes all transactions for the current session.
+     * @param writer the PrintWriter to write to
      */
     private void writeTransactions(PrintWriter writer) {
         writer.println("SESSION TRANSACTIONS:");

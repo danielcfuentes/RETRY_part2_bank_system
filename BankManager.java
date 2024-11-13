@@ -1,7 +1,5 @@
 import java.util.*;
 import java.io.*;
-
-
 /**
  * Represents a Bank Manager with special privileges and responsibilities.
  * Bank Managers can:
@@ -61,24 +59,20 @@ public class BankManager extends Person {
      */
     public Optional<Customer> createNewCustomer(Map<String, String> userData) {
         try {
-            // Validate name first
+            //check name first
             if (!newUsersHandler.isValidNewCustomerName(
                     userData.get("firstName"), userData.get("lastName"))) {
                 System.out.println("Error: Invalid name combination. Would create duplicate customer.");
                 return Optional.empty();
             }
             
-            // Create the customer
+            //create the customer
             Customer newCustomer = newUsersHandler.createUser(userData);
             
-            // Add to customers map
+            //add to customers map
             customers.put(newCustomer.getName(), newCustomer);
-            
-            // Log the creation
-            logger.logTransaction("Bank Manager created new customer: " + newCustomer.getName() + 
-                                " (ID: " + newCustomer.getCustomerID() + ")",
-                                "Bank Manager");
-            
+    
+            //return the new customer
             return Optional.of(newCustomer);
             
         } catch (IllegalArgumentException e) {
@@ -97,7 +91,6 @@ public class BankManager extends Person {
      */
     public List<Customer> searchCustomers(String searchName, boolean isFirstName) {
         List<Customer> matches = new ArrayList<>();
-        
         for (Customer customer : customers.values()) {
             String[] nameParts = customer.getName().split(" ");
             String nameToCheck = isFirstName ? nameParts[0] : nameParts[1];
@@ -119,19 +112,19 @@ public class BankManager extends Person {
      * @return selected customer or empty if none found
      */
     public Optional<Customer> findCustomerInteractive(String firstName, String lastName) {
-        // Try exact match first
+        //try exact match first
         Customer exactMatch = customers.get(firstName + " " + lastName);
         if (exactMatch != null) {
             return Optional.of(exactMatch);
         }
 
-        // Search by first name
+        //search by first name
         List<Customer> firstNameMatches = searchCustomers(firstName, true);
         
-        // Search by last name
+        //search by last name
         List<Customer> lastNameMatches = searchCustomers(lastName, false);
         
-        // If we have matches, let manager select
+        //if we have matches, let manager select
         if (!firstNameMatches.isEmpty()) {
             System.out.println("\nMultiple customers found with first name '" + firstName + "':");
             return selectCustomerFromList(firstNameMatches);
