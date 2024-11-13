@@ -9,6 +9,7 @@ public class RunBank {
     /**
      * Main starting point for the banking application.
      * Initializes the system, presents menu options, and user interaction.
+     * @param args Command-line arguments.
      */
     public static void main(String[] args) {
         /** Stores all customer data */

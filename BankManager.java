@@ -190,9 +190,6 @@ public class BankManager extends Person {
 
     /**
      * Process a transaction file containing multiple banking operations.
-     * 
-     * @param filename name of the transaction file
-     * @throws IOException if file cannot be read
      */
     public void processTransactionFile() {
         TransactionProcessor processor = new TransactionProcessor(customers, logger);

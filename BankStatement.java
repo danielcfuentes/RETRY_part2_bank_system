@@ -40,6 +40,7 @@ public class BankStatement {
     /**
      * Generates a bank statement file for the customer.
      * @return filename of generated statement
+     * @throws IOException if an I/O error occurs
      */
     public String generateStatement() throws IOException {
         String filename = String.format("%s%s_statement_%s.txt",
