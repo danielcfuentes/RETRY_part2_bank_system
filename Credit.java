@@ -1,83 +1,93 @@
 /**
  * Represents a credit account where the balance is negative, with a set credit limit.
  * @author Daniel Fuentes, Rogelio Lozano
- * @version 1.0
+ * @version 2.0
  */
 public class Credit extends Account {
-    /** Maximum amount that can be borrowed */
     private double creditLimit;
-    /** Current amount borrowed */
     private double principle;
     
-    /**
-     * Initializes a Credit account with an account number, balance, and credit limit.
-     * @param accountNumber the account identifier
-     * @param balance the initial balance (negative value for credit)
-     * @param creditLimit the maximum credit limit
-     */
-    public Credit(String accountNumber, double balance, double creditLimit){
+    public Credit(String accountNumber, double balance, double creditLimit) {
         super(accountNumber, balance);
         this.creditLimit = creditLimit;
-        this.principle = 0;
+        this.principle = Math.abs(balance);
     }
 
-    /**
-     * Sets the credit limit.
-     * @param creditLimit new credit limit
-     */
-    public void setCreditLimit(double creditLimit){
+    public double getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(double creditLimit) {
         this.creditLimit = creditLimit;
     }
 
-    /**
-     * Sets the principle amount.
-     * @param principle new principle amount
-     */
-    public void setPrinciple(double principle){
+    public double getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(double principle) {
         this.principle = principle;
     }
 
     /**
-     * Gets the credit limit.
-     * @return current credit limit
+     * Makes a payment towards the credit balance.
+     * @param amount the amount to pay
+     * @throws IllegalArgumentException if payment amount exceeds outstanding balance
      */
-    public double getCreditLimit(){
-        return creditLimit;
-    }
+    @Override
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Payment amount must be positive");
+        }
 
-    /**
-     * Gets the principle amount.
-     * @return current principle
-     */
-    public double getPrinciple(){
-        return principle;
-    }
+        // Check if payment exceeds outstanding balance
+        if (amount > Math.abs(balance)) {
+            throw new IllegalArgumentException(
+                String.format("Payment amount ($%.2f) exceeds outstanding balance ($%.2f)", 
+                    amount, Math.abs(balance))
+            );
+        }
 
-    /**
-     * Borrows a specified amount, increasing the balance and principle.
-     * Checks if the amount is invalid or exceeds the credit limit
-     * @param amount the amount to borrow
-     * 
-     */
-    public void borrow(double amount){
-        if ((amount > 0) && ((Math.abs(balance) + amount) <= creditLimit)) {
-            balance -= amount;
-            principle += amount;
-        }else{
-            throw new IllegalArgumentException("Not Valid Amount or Would Exceed Credit Limit");
+        balance += amount;
+        principle -= amount;
+        
+        String message = String.format(
+            "Credit payment of $%.2f successful. New balance: $%.2f, Available credit: $%.2f",
+            amount, balance, creditLimit + balance
+        );
+        System.out.println(message);
+        if (transactionLog != null) {
+            transactionLog.logTransaction(message, getOwner().getName());
         }
     }
 
     /**
-     * Makes a payment towards the credit balance, reducing the principle.
-     * @param amount the amount to pay
+     * Charges an amount to the credit account.
+     * @param amount the amount to charge
+     * @throws IllegalArgumentException if amount would exceed credit limit
      */
-    public void pay(double amount){
-        if (amount > 0){
-            balance += amount;
-            principle -= amount;
-        }else{
-            throw new IllegalArgumentException("Invalid Payment Amount");
+    public void charge(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Charge amount must be positive");
+        }
+
+        if (Math.abs(balance) + amount > creditLimit) {
+            throw new IllegalArgumentException(
+                String.format("Charge would exceed credit limit. Available credit: $%.2f, Attempted charge: $%.2f",
+                    creditLimit + balance, amount)
+            );
+        }
+
+        balance -= amount;
+        principle += amount;
+        
+        String message = String.format(
+            "Credit charge of $%.2f successful. New balance: $%.2f, Available credit: $%.2f",
+            amount, balance, creditLimit + balance
+        );
+        System.out.println(message);
+        if (transactionLog != null) {
+            transactionLog.logTransaction(message, getOwner().getName());
         }
     }
 }

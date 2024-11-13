@@ -281,6 +281,12 @@ public class CustomerMenu implements Menu {
             }
             Customer recipient = recipientOpt.get();
 
+            //check if self payment
+            if(customer.getName().equals(recipient.getName())){
+                System.out.println("Cannot pay yourself.");
+                return;
+            }
+
             // Show payer's accounts
             List<Account> payerAccounts = customer.getAccounts();
             System.out.println("\nYour accounts:");
