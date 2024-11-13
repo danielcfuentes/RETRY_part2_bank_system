@@ -205,9 +205,9 @@ public class BankManager extends Person {
      * @param filename name of the transaction file
      * @throws IOException if file cannot be read
      */
-    public void processTransactionFile(String filename) throws IOException {
-        // This will be implemented in the next requirement
-        // It will handle reading and processing the Transactions.csv file
+    public void processTransactionFile() {
+        TransactionProcessor processor = new TransactionProcessor(customers, logger);
+        processor.processTransactionFile();
     }
 
     /**

@@ -204,11 +204,11 @@ private void handleNewCustomer() {
      */
     private void handleTransactionFile() {
         try {
-            System.out.println("Enter transaction file name:");
-            String filename = getInput();
-            bankManager.processTransactionFile(filename);
-        } catch (IOException e) {
-            System.out.println("Error processing transaction file: " + e.getMessage());
+            System.out.println("\nProcessing Transactions.csv...");
+            bankManager.processTransactionFile();  // No filename parameter needed
+            System.out.println("Transaction processing complete.");
+        } catch (Exception e) {
+            System.out.println("Error processing transactions: " + e.getMessage());
         }
     }
     
