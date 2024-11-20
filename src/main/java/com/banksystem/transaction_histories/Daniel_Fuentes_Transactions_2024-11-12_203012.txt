@@ -1,0 +1,30 @@
+TRANSACTION HISTORY FOR: Daniel Fuentes Camilo
+Customer ID: 104
+Date Generated: 2024-11-12 20:30:12
+Session Start: 2024-11-12 20:26:27
+
+==================================================
+
+ACCOUNT INFORMATION:
+Checkings (1104):
+  Starting Balance: $0.00
+  Current Balance:  $1000000.00
+
+Savings (2104):
+  Starting Balance: $0.00
+  Current Balance:  $0.00
+
+Credit (3104):
+  Starting Balance: $0.00
+  Current Balance:  $0.00
+
+==================================================
+
+SESSION TRANSACTIONS:
+2024-11-12 20:29:59 - Daniel Fuentes Camilo made a balance inquiry on 1104. Balance: $0.00
+2024-11-12 20:29:59 - Daniel Fuentes Camilo made a balance inquiry on 2104. Balance: $0.00
+2024-11-12 20:29:59 - Daniel Fuentes Camilo made a balance inquiry on 3104. Balance: $0.00
+2024-11-12 20:30:07 - Daniel Fuentes Camilo deposited $1000000.00 to 1104
+
+==================================================
+End of Transaction History

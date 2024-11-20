@@ -1,0 +1,121 @@
+================================================================================
+                       EL PASO MINERS BANK
+                        ACCOUNT STATEMENT
+================================================================================
+
+Statement Date: November 12, 2024 19:52:02
+
+--------------------------------------------------------------------------------
+CUSTOMER INFORMATION
+--------------------------------------------------------------------------------
+Customer ID: 79
+Name: Daniel A
+Address: 500 W. University Ave, El Paso, TX 79968
+         null, null null
+Phone: (915) 747-5042
+
+--------------------------------------------------------------------------------
+ACCOUNT SUMMARY
+--------------------------------------------------------------------------------
+Checkings Account (1078)
+Current Balance: $101.02
+
+Savings Account (2078)
+Current Balance: $1899.04
+
+Credit Account (3078)
+Credit Limit: $7985.00
+Current Balance: $43.07
+Available Credit: $8028.07
+
+
+--------------------------------------------------------------------------------
+TRANSACTION HISTORY
+--------------------------------------------------------------------------------
+2024-11-12 11:40:43 - Daniel A made a balance inquiry on 1078. Balance: $101.02
+2024-11-12 11:40:43 - Daniel A made a balance inquiry on 2078. Balance: $1899.04
+2024-11-12 11:40:43 - Daniel A made a balance inquiry on 3078. Balance: $43.07
+2024-11-12 15:32:29 - Bank Manager created new customer: Daniel Aguilar (ID: 104)
+2024-11-12 15:32:29 - Created new customer: Daniel Aguilar (ID: 104)
+Daniel A deposited $100.00 to 1078
+Daniel A deposited $100.00 to 1078
+Daniel A deposited $1000.00 to 3078
+Daniel A deposited $30.00 to 3078
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $957.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $1957.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2057.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $1957.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2957.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $213.07
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $113.07
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $13.07
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $13.07
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A made a balance inquiry on 1078. Balance: $2000.06
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A made a balance inquiry on 1078. Balance: $2101.02
+Daniel A made a balance inquiry on 2078. Balance: $1899.04
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A made a balance inquiry on 1078. Balance: $101.02
+Daniel A made a balance inquiry on 2078. Balance: $1899.04
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A paid Daniel S $100.00
+Daniel A paid Daniel S $2000.00
+Daniel A transferred $1000.00 from 2078 to 1078
+Daniel A transferred $1000.00 from 2078 to 1078
+Daniel A transferred $100.96 from 2078 to 1078
+Daniel A withdrew $100.00 from 1078
+Daniel A withdrew $100.00 from 3078
+Daniel A withdrew $100.00 from 3078
+Daniel A withdrew $857.50 from 1078
+
+================================================================================
+                    End of Statement
+================================================================================
+
+For questions or concerns:
+Call: 1-800-MINERS-BANK
+Visit: www.elpasominersbank.com
+Email: support@elpasominersbank.com
