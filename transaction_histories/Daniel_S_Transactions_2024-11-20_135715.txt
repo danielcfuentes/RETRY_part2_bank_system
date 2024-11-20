@@ -1,0 +1,30 @@
+TRANSACTION HISTORY FOR: Daniel S
+Customer ID: 96
+Date Generated: 2024-11-20 13:57:15
+Session Start: 2024-11-20 13:57:02
+
+==================================================
+
+ACCOUNT INFORMATION:
+Checkings (1095):
+  Starting Balance: $1197.47
+  Current Balance:  $101197.47
+
+Savings (2095):
+  Starting Balance: $2944.12
+  Current Balance:  $2944.12
+
+Credit (3095):
+  Starting Balance: $-718.69
+  Current Balance:  $-718.69
+
+==================================================
+
+SESSION TRANSACTIONS:
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 1095. Balance: $1197.47
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 2095. Balance: $2944.12
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 3095. Balance: $-718.69
+2024-11-20 13:57:12 - Daniel S deposited $100000.00 to 1095
+
+==================================================
+End of Transaction History

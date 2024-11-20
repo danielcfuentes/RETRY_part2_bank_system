@@ -1,0 +1,99 @@
+TRANSACTION HISTORY FOR: Daniel A
+Customer ID: 79
+Date Generated: 2024-11-12 11:40:30
+Session Start: 2024-11-12 11:40:21
+
+==================================================
+
+ACCOUNT INFORMATION:
+Checkings (1078):
+  Starting Balance: $101.02
+  Current Balance:  $101.02
+
+Savings (2078):
+  Starting Balance: $1899.04
+  Current Balance:  $1899.04
+
+Credit (3078):
+  Starting Balance: $43.07
+  Current Balance:  $43.07
+
+==================================================
+
+SESSION TRANSACTIONS:
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $857.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A deposited $100.00 to 1078
+Daniel A made a balance inquiry on 1078. Balance: $957.56
+Daniel A made a balance inquiry on 2078. Balance: $4000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A transferred $1000.00 from 2078 to 1078
+Daniel A made a balance inquiry on 1078. Balance: $1957.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A deposited $100.00 to 1078
+Daniel A made a balance inquiry on 1078. Balance: $2057.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A withdrew $100.00 from 1078
+Daniel A made a balance inquiry on 1078. Balance: $1957.56
+Daniel A made a balance inquiry on 2078. Balance: $3000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A transferred $1000.00 from 2078 to 1078
+Daniel A made a balance inquiry on 1078. Balance: $2957.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A paid Daniel S $100.00
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $-786.93
+Daniel A deposited $1000.00 to 3078
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $213.07
+Daniel A withdrew $100.00 from 3078
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $113.07
+Daniel A withdrew $100.00 from 3078
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $13.07
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $13.07
+Daniel A deposited $30.00 to 3078
+Daniel A made a balance inquiry on 1078. Balance: $2857.56
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A withdrew $857.50 from 1078
+Daniel A made a balance inquiry on 1078. Balance: $2000.06
+Daniel A made a balance inquiry on 2078. Balance: $2000.00
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A transferred $100.96 from 2078 to 1078
+Daniel A made a balance inquiry on 1078. Balance: $2101.02
+Daniel A made a balance inquiry on 2078. Balance: $1899.04
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+Daniel A paid Daniel S $2000.00
+Daniel A made a balance inquiry on 1078. Balance: $101.02
+Daniel A made a balance inquiry on 2078. Balance: $1899.04
+Daniel A made a balance inquiry on 3078. Balance: $43.07
+
+==================================================
+End of Transaction History
