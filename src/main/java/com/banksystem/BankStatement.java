@@ -66,10 +66,10 @@ public class BankStatement {
      * @param writer the PrintWriter to write the header to
      */
     private void writeHeader(PrintWriter writer) {
-        writer.println("=".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "="));
         writer.println("                       EL PASO MINERS BANK");
         writer.println("                        ACCOUNT STATEMENT");
-        writer.println("=".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "="));
         writer.println();
         writer.printf("Statement Date: %s%n", 
             LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss")));
@@ -81,9 +81,9 @@ public class BankStatement {
      * @param writer the PrintWriter to write the customer information to
      */
     private void writeCustomerInfo(PrintWriter writer) {
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         writer.println("CUSTOMER INFORMATION");
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         writer.printf("Customer ID: %s%n", customer.getCustomerID());
         writer.printf("Name: %s%n", customer.getName());
         writer.printf("Address: %s%n", customer.getAddress());
@@ -96,9 +96,9 @@ public class BankStatement {
      * @param writer the PrintWriter to write the account summary to
      */
     private void writeAccountSummary(PrintWriter writer) {
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         writer.println("ACCOUNT SUMMARY");
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         
         for (Account account : customer.getAccounts()) {
             String accountType = account.getClass().getSimpleName();
@@ -125,9 +125,9 @@ public class BankStatement {
      * @param writer the PrintWriter to write the transaction history to
      */
     private void writeTransactionHistory(PrintWriter writer) {
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         writer.println("TRANSACTION HISTORY");
-        writer.println("-".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "-"));
         
         List<String> allTransactions = logger.getCustomerTransactions(customer.getName());
         List<String> relevantTransactions = new ArrayList<>();
@@ -169,9 +169,9 @@ public class BankStatement {
      * @param writer the PrintWriter to write the footer to
      */
     private void writeFooter(PrintWriter writer) {
-        writer.println("=".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "="));
         writer.println("                    End of Statement");
-        writer.println("=".repeat(80));
+        writer.println(new String(new char[80]).replace("\0", "="));
         writer.println();
         writer.println("For questions or concerns:");
         writer.println("Call: 1-800-MINERS-BANK");

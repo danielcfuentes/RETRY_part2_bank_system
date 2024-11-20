@@ -1,0 +1,13 @@
+2024-11-20 13:37:46 - Daniel A made a balance inquiry on 1078. Balance: $857.56
+2024-11-20 13:37:46 - Daniel A made a balance inquiry on 2078. Balance: $3364.79
+2024-11-20 13:37:46 - Daniel A made a balance inquiry on 3078. Balance: $-786.93
+2024-11-20 13:37:53 - Daniel A deposited $1000.00 to 1078
+2024-11-20 13:38:15 - Daniel A withdrew $1000.00 from 2078
+2024-11-20 13:38:27 - Daniel A transferred $500.00 from 2078 to 1078
+2024-11-20 13:38:49 - Daniel A paid Daniel S $100.00
+2024-11-20 13:43:02 - Created new customer: 1 1 (ID: 104)
+2024-11-20 13:53:39 - Bank statement generated for: Daniel S
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 1095. Balance: $1197.47
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 2095. Balance: $2944.12
+2024-11-20 13:57:07 - Daniel S made a balance inquiry on 3095. Balance: $-718.69
+2024-11-20 13:57:12 - Daniel S deposited $100000.00 to 1095

@@ -86,7 +86,7 @@ public class TransactionHistory {
         writer.println("Customer ID: " + customer.getCustomerID());
         writer.println("Date Generated: " + LocalDateTime.now().format(displayFormatter));
         writer.println("Session Start: " + transactionLog.getSessionStartTime().format(displayFormatter));
-        writer.println("\n" + "=".repeat(50) + "\n");
+        writer.println("\n" + new String(new char[50]).replace("\0", "=") + "\n");
     }
 
     /**
@@ -108,7 +108,7 @@ public class TransactionHistory {
             writer.println();
         }
         
-        writer.println("=" .repeat(50) + "\n");
+        writer.println(new String(new char[50]).replace("\0", "=") + "\n");
     }
 
     /**
@@ -128,7 +128,7 @@ public class TransactionHistory {
             }
         }
         
-        writer.println("\n" + "=".repeat(50));
+        writer.println("\n" + new String(new char[50]).replace("\0", "="));
         writer.println("End of Transaction History");
     }
 }

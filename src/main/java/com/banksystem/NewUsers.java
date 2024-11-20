@@ -53,8 +53,6 @@ public class NewUsers {
      */
     public boolean isValidNewCustomerName(String firstName, String lastName) {
         //count customers with matching first name and last name
-        int firstNameMatches = 0;
-        int lastNameMatches = 0;
         String fullName = firstName + " " + lastName;
         int matchingBothNames = 0;
 

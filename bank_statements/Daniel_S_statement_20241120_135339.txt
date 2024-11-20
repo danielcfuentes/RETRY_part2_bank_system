@@ -3,7 +3,7 @@
                         ACCOUNT STATEMENT
 ================================================================================
 
-Statement Date: November 12, 2024 19:38:32
+Statement Date: November 20, 2024 13:53:39
 
 --------------------------------------------------------------------------------
 CUSTOMER INFORMATION
@@ -11,14 +11,13 @@ CUSTOMER INFORMATION
 Customer ID: 96
 Name: Daniel S
 Address: null
-         null, null null
 Phone: null
 
 --------------------------------------------------------------------------------
 ACCOUNT SUMMARY
 --------------------------------------------------------------------------------
 Checkings Account (1095)
-Current Balance: $54762.26
+Current Balance: $1197.47
 
 Savings Account (2095)
 Current Balance: $2944.12
@@ -32,9 +31,7 @@ Available Credit: $6563.31
 --------------------------------------------------------------------------------
 TRANSACTION HISTORY
 --------------------------------------------------------------------------------
-Session Start: November 12, 2024 19:38:24
-
-No transactions in current session.
+2024-11-20 13:38:49 - Daniel A paid Daniel S $100.00
 
 ================================================================================
                     End of Statement
@@ -42,5 +39,4 @@ No transactions in current session.
 
 For questions or concerns:
 Call: 1-800-MINERS-BANK
-Visit: www.elpasominersbank.com
 Email: support@elpasominersbank.com

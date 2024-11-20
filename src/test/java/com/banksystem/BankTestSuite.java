@@ -12,4 +12,5 @@ import org.junit.runners.Suite.SuiteClasses;
     NameValidationTest.class,
     PaymentTest.class
 })
+
 public class BankTestSuite {}
