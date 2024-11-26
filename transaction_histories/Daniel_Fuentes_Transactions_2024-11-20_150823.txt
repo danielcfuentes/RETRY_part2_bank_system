@@ -1,0 +1,30 @@
+TRANSACTION HISTORY FOR: Daniel Fuentes
+Customer ID: 104
+Date Generated: 2024-11-20 15:08:23
+Session Start: 2024-11-20 15:06:06
+
+==================================================
+
+ACCOUNT INFORMATION:
+Checkings (1104):
+  Starting Balance: $0.00
+  Current Balance:  $100.00
+
+Savings (2104):
+  Starting Balance: $0.00
+  Current Balance:  $0.00
+
+Credit (3104):
+  Starting Balance: $0.00
+  Current Balance:  $0.00
+
+==================================================
+
+SESSION TRANSACTIONS:
+2024-11-20 15:08:03 - Daniel Fuentes deposited $100.00 to 1104
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 1104. Balance: $100.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 2104. Balance: $0.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 3104. Balance: $0.00
+
+==================================================
+End of Transaction History
