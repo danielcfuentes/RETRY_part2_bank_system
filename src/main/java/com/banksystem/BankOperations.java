@@ -41,11 +41,11 @@ public class BankOperations {
     }
 
     /**
-     * Handles customer login and menu operations.
-     * Verifies customer identity and creates appropriate menu.
+     * Handles customer login and verification for the banking system.
+     * Includes password setup for first-time users.
      */
     public void handleCustomer() {
-        System.out.println("Enter your name:");
+        System.out.println("\nEnter your name:");
         String name = scanner.nextLine();
         
         Customer customer = customers.get(name);
@@ -54,8 +54,41 @@ public class BankOperations {
             return;
         }
         
-        currentMenu = new CustomerMenu(customer, logger, bankManager);
-        runMenuLoop();
+        PasswordManager passwordManager = new PasswordManager();
+        String customerID = customer.getCustomerID();
+        
+        //check if customer has a password set
+        if (!passwordManager.hasPassword(customerID)) {
+            //first time login - setup password
+            if (!passwordManager.setupNewPassword(customerID, scanner)) {
+                //setup failed
+                return;
+            }
+        }
+        
+        //regular password verification
+        int maxAttempts = 3;
+        int attempts = 0;
+        
+        while (attempts < maxAttempts) {
+            System.out.println("\nEnter your password:");
+            String password = scanner.nextLine();
+            
+            if (passwordManager.verifyPassword(customerID, password)) {
+                System.out.println("Login successful!");
+                currentMenu = new CustomerMenu(customer, logger, bankManager);
+                runMenuLoop();
+                return;
+            } else {
+                attempts++;
+                if (attempts < maxAttempts) {
+                    System.out.printf("Incorrect password. %d attempts remaining.%n", 
+                        maxAttempts - attempts);
+                }
+            }
+        }
+        
+        System.out.println("Too many failed attempts. Please try again later.");
     }
 
     /**
