@@ -47,12 +47,13 @@ public class CustomerMenu implements Menu {
     @Override
     public void displayMenu() {
         System.out.println("\nWelcome " + customer.getName());
-        System.out.println("1. Inquire Balance");
-        System.out.println("2. Deposit Money");
-        System.out.println("3. Withdraw Money");
-        System.out.println("4. Transfer Between Accounts");
-        System.out.println("5. Pay Someone");
-        System.out.println("6. Generate Transaction History");
+        System.out.println("\nPlease select the type of transaction you would like to perform:");
+        System.out.println("1. View Account Balances");
+        System.out.println("2. Make a Deposit");
+        System.out.println("3. Make a Withdrawal");
+        System.out.println("4. Transfer Between Your Accounts");
+        System.out.println("5. Pay Another Customer");
+        System.out.println("6. View Transaction History");
         System.out.println("7. Return to Main Menu");
         System.out.println("__________________");
     }
@@ -132,12 +133,12 @@ public class CustomerMenu implements Menu {
         
         try {
             //get account selection
-            System.out.print("Select account (1-" + customer.getAccounts().size() + "): ");
+            System.out.print("Please select an account by entering a number (1-" + customer.getAccounts().size() + "): ");
             int accountIndex = Integer.parseInt(getInput()) - 1;
             
             if (accountIndex >= 0 && accountIndex < customer.getAccounts().size()) {
                 //get deposit amount
-                System.out.println("Enter amount to deposit:");
+                System.out.println("Please enter the amount you wish to deposit: $");
                 System.out.println("__________________");
                 double amount = Double.parseDouble(getInput());
                 
@@ -170,11 +171,11 @@ public class CustomerMenu implements Menu {
         displayAccountsForSelection();
         
         try {
-            System.out.print("Select account (1-" + customer.getAccounts().size() + "): ");
+            System.out.print("Please select an account by entering a number (1-" + customer.getAccounts().size() + "): ");
             int accountIndex = Integer.parseInt(getInput()) - 1;
             
             if (accountIndex >= 0 && accountIndex < customer.getAccounts().size()) {
-                System.out.println("Enter amount to withdraw:");
+                System.out.println("Please enter the amount you wish to withdraw: $");
                 System.out.println("__________________");
                 double amount = Double.parseDouble(getInput());
                 
@@ -216,10 +217,10 @@ public class CustomerMenu implements Menu {
         }
 
         try {
-            System.out.print("Enter source account (1-" + accounts.size() + "): ");
+            System.out.println("\nPlease select the account you want to transfer money FROM:");
             int fromAccount = Integer.parseInt(getInput()) - 1;
             
-            System.out.print("Enter destination account (1-" + accounts.size() + "): ");
+            System.out.println("Then select the account you want to transfer money TO:");
             int toAccount = Integer.parseInt(getInput()) - 1;
             
             if (fromAccount == toAccount) {
@@ -230,7 +231,7 @@ public class CustomerMenu implements Menu {
             if (fromAccount >= 0 && fromAccount < accounts.size() && 
                 toAccount >= 0 && toAccount < accounts.size()) {
                     
-                System.out.println("Enter amount to transfer:");
+                System.out.println("Enter amount you wish to transfer:");
                 double amount = Double.parseDouble(getInput());
                 
                 Account source = accounts.get(fromAccount);
@@ -298,7 +299,7 @@ public class CustomerMenu implements Menu {
                 );
             }
 
-            System.out.print("Select your account (1-" + payerAccounts.size() + "): ");
+            System.out.println("\nPlease select the account you want to transfer money FROM:");
             int fromAccount = Integer.parseInt(getInput()) - 1;
 
             //show recipient's accounts
@@ -311,13 +312,13 @@ public class CustomerMenu implements Menu {
                 );
             }
 
-            System.out.print("Select recipient's account (1-" + recipientAccounts.size() + "): ");
+            System.out.println("Then select the account you want to send money to the recipient:");
             int toAccount = Integer.parseInt(getInput()) - 1;
 
             if (fromAccount >= 0 && fromAccount < payerAccounts.size() && 
                 toAccount >= 0 && toAccount < recipientAccounts.size()) {
                 
-                System.out.println("Enter amount to pay:");
+                    System.out.println("Please enter the amount you wish to send: $");
                 double amount = Double.parseDouble(getInput());
                 
                 customer.pay(recipient, 

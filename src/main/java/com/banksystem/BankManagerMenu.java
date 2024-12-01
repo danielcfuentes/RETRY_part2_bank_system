@@ -34,12 +34,12 @@ public class BankManagerMenu implements Menu {
     
     @Override
     public void displayMenu() {
-        System.out.println("\nBank Manager Menu");
-        System.out.println("A. Inquire account by name");
-        System.out.println("B. Inquire account by account number");
-        System.out.println("C. Create new customer");
-        System.out.println("D. Process transaction file");
-        System.out.println("E. Generate bank statement");
+        System.out.println("\nBank Manager Options:");
+        System.out.println("A. Look Up Customer Account by Name");
+        System.out.println("B. Look Up Account by Account Number");
+        System.out.println("C. Create New Customer Account");
+        System.out.println("D. Process Transaction File");
+        System.out.println("E. Generate Customer Bank Statement");
         System.out.println("F. Return to Main Menu");
         System.out.println("__________________");
     }
@@ -85,10 +85,10 @@ public class BankManagerMenu implements Menu {
      * Uses bank manager's interactive search when multiple matches exist.
      */
     private void handleNameInquiry() {
-        System.out.println("Enter first name:");
+        System.out.println("Enter the first name of customer:");
         String firstName = getInput();
         
-        System.out.println("Enter last name:");
+        System.out.println("Enter the last name of customer:");
         String lastName = getInput();
         
         Optional<Customer> customer = bankManager.findCustomerInteractive(firstName, lastName);
@@ -187,7 +187,7 @@ private void handleNewCustomer() {
      * Handles account inquiry by account number.
      */
     private void handleAccountInquiry() {
-        System.out.println("Enter account number:");
+        System.out.println("Enter a customer account number:");
         String accountNumber = getInput();
         
         Optional<Account> account = bankManager.lookupAccountByNumber(accountNumber);
@@ -218,7 +218,7 @@ private void handleNewCustomer() {
      */
     private void handleBankStatement() {
         try {
-            System.out.println("\nSearch by:");
+            System.out.println("\nSearch Customer by:");
             System.out.println("1. Customer Name");
             System.out.println("2. Customer ID");
             String choice = getInput();
