@@ -11,7 +11,7 @@ public class AccountFactoryTest {
             AccountFactory.CHECKING,
             "1001",
             1000.0,
-            0.0  // creditLimit not used for checking
+            0.0
         );
         
         assertNotNull("Account should not be null", account);
@@ -26,7 +26,7 @@ public class AccountFactoryTest {
             AccountFactory.SAVINGS,
             "2001",
             2000.0,
-            0.0  // creditLimit not used for savings
+            0.0
         );
         
         assertNotNull("Account should not be null", account);
@@ -41,7 +41,7 @@ public class AccountFactoryTest {
             AccountFactory.CREDIT,
             "3001",
             -500.0,
-            5000.0  // creditLimit used for credit account
+            5000.0
         );
         
         assertNotNull("Account should not be null", account);
