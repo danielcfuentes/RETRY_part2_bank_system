@@ -10,7 +10,12 @@ import org.junit.runners.Suite.SuiteClasses;
     WithdrawTest.class,
     BorrowTest.class,
     NameValidationTest.class,
-    PaymentTest.class
+    PaymentTest.class,
+    TransferTest.class,
+    CreditLimitTest.class,
+    CustomerCreationTest.class,
+    PasswordManagerTest.class,
+    AccountFactoryTest.class
 })
 
 public class BankTestSuite {}

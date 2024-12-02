@@ -103,7 +103,7 @@ public class Credit extends Account {
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundsException {
         //for credit accounts, withdraw is same as borrowing
         borrow(amount);
     }

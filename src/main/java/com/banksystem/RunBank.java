@@ -30,8 +30,9 @@ public class RunBank {
             // main menu loop
             while (true) {
                 System.out.println("\nWelcome to El Paso Miners Bank");
-                System.out.println("1. Individual Customer");
-                System.out.println("2. Bank Manager");
+                System.out.println("Please select your role:");
+                System.out.println("1. Customer (Access your accounts and perform transactions)");
+                System.out.println("2. Bank Manager (Administrative access and customer service)");
                 System.out.println("Type 'EXIT' to quit");
                 System.out.println("_________________________");
                 

@@ -104,24 +104,36 @@ public class CSVHandler {
                         //create and set up their accounts
                         List<Account> accounts = new ArrayList<>();
                         
-                        //create Checking account
-                        accounts.add(new Checkings(
+                            // Create checking account
+                        Account checking = AccountFactory.createAccount(
+                            AccountFactory.CHECKING,
                             parts[columnMap.get("Checking Account Number")],
-                            Double.parseDouble(parts[columnMap.get("Checking Starting Balance")])
-                        ));
+                            Double.parseDouble(parts[columnMap.get("Checking Starting Balance")]),
+                            0.0
+                        );
+                        checking.setOwner(customer);
+                        accounts.add(checking); 
+
                         
-                        //create Savings account
-                        accounts.add(new Savings(
+                        // Create savings account
+                        Account savings = AccountFactory.createAccount(
+                            AccountFactory.SAVINGS,
                             parts[columnMap.get("Savings Account Number")],
-                            Double.parseDouble(parts[columnMap.get("Savings Starting Balance")])
-                        ));
+                            Double.parseDouble(parts[columnMap.get("Savings Starting Balance")]),
+                            0.0
+                        );
+                        savings.setOwner(customer);
+                        accounts.add(savings);
                         
-                        //create Credit account
-                        accounts.add(new Credit(
+                        // Create credit account
+                        Account credit = AccountFactory.createAccount(
+                            AccountFactory.CREDIT,
                             parts[columnMap.get("Credit Account Number")],
                             Double.parseDouble(parts[columnMap.get("Credit Starting Balance")]),
                             Double.parseDouble(parts[columnMap.get("Credit Max")])
-                        ));
+                        );
+                        credit.setOwner(customer);
+                        accounts.add(credit);
                         
                         //associate accounts with customer and add to customers map
                         customer.setAccounts(accounts);
@@ -157,37 +169,64 @@ public class CSVHandler {
         try {
             //store all lines including header for rewriting
             List<String> lines = new ArrayList<>();
+            Set<String> processedCustomers = new HashSet<>();
             
-            //read the original file to preserve structure
+            //read the original file to preserve structure and update existing customers
             try (BufferedReader reader = new BufferedReader(new FileReader(ORIGINAL_CSV_FILE))) {
                 //keep the header line exactly as is
-                lines.add(reader.readLine());
+                String headerLine = reader.readLine();
+                lines.add(headerLine);
                 
-                //process each customer line
+                //process each existing customer line
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    //split the line while preserving quoted fields
                     String[] parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                     
-                    //get customer name from the current line
                     String firstName = parts[columnMap.get("First Name")].replace("\"", "").trim();
                     String lastName = parts[columnMap.get("Last Name")].replace("\"", "").trim();
                     String fullName = firstName + " " + lastName;
                     
-                    //look up the customer in our map
                     Customer customer = customers.get(fullName);
                     if (customer != null) {
-                        //update just the balance fields using column positions
+                        //update balances for existing customer
                         parts[columnMap.get("Checking Starting Balance")] = 
                             String.format("%.2f", customer.getAccounts().get(0).getBalance());
                         parts[columnMap.get("Savings Starting Balance")] = 
                             String.format("%.2f", customer.getAccounts().get(1).getBalance());
                         parts[columnMap.get("Credit Starting Balance")] = 
                             String.format("%.2f", customer.getAccounts().get(2).getBalance());
+                        processedCustomers.add(fullName);
                     }
-                    
-                    //reconstruct the line and add it back
                     lines.add(String.join(",", parts));
+                }
+            }
+            
+            //add new customers who weren't in the original file
+            for (Map.Entry<String, Customer> entry : customers.entrySet()) {
+                if (!processedCustomers.contains(entry.getKey())) {
+                    Customer newCustomer = entry.getValue();
+                    String[] nameParts = newCustomer.getName().split(" ");
+                    
+                    //create new line for customer using same column structure
+                    String[] newLine = new String[columnMap.size()];
+                    newLine[columnMap.get("Identification Number")] = newCustomer.getCustomerID();
+                    newLine[columnMap.get("First Name")] = nameParts[0];
+                    newLine[columnMap.get("Last Name")] = nameParts[1];
+                    newLine[columnMap.get("Date of Birth")] = newCustomer.getDateOfBirth();
+                    newLine[columnMap.get("Address")] = "\"" + newCustomer.getAddress() + "\"";
+                    newLine[columnMap.get("Phone Number")] = newCustomer.getPhoneNumber();
+                    
+                    //add account information
+                    List<Account> accounts = newCustomer.getAccounts();
+                    newLine[columnMap.get("Checking Account Number")] = accounts.get(0).getAccountNumber();
+                    newLine[columnMap.get("Checking Starting Balance")] = String.format("%.2f", accounts.get(0).getBalance());
+                    newLine[columnMap.get("Savings Account Number")] = accounts.get(1).getAccountNumber();
+                    newLine[columnMap.get("Savings Starting Balance")] = String.format("%.2f", accounts.get(1).getBalance());
+                    newLine[columnMap.get("Credit Account Number")] = accounts.get(2).getAccountNumber();
+                    newLine[columnMap.get("Credit Max")] = String.format("%.2f", ((Credit)accounts.get(2)).getCreditLimit());
+                    newLine[columnMap.get("Credit Starting Balance")] = String.format("%.2f", accounts.get(2).getBalance());
+                    
+                    lines.add(String.join(",", newLine));
                 }
             }
             

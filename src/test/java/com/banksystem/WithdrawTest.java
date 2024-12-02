@@ -9,27 +9,32 @@ public class WithdrawTest {
     
     @Before
     public void setUp() {
-        testAccount = new Account("TEST001", 1000.0) {};
+        testAccount = AccountFactory.createAccount(
+            AccountFactory.CHECKING,
+            "TEST001",
+            1000.0,
+            0.0
+        );
     }
     
     @Test
-    public void testValidWithdraw() {
+    public void testValidWithdraw() throws InsufficientFundsException {
         testAccount.withdraw(500.0);
         assertEquals(500.0, testAccount.getBalance(), 0.001);
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testWithdrawMoreThanBalance() {
+    @Test(expected = (InsufficientFundsException.class))
+    public void testWithdrawMoreThanBalance() throws InsufficientFundsException {
         testAccount.withdraw(2000.0);
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeWithdraw() {
+    public void testNegativeWithdraw() throws InsufficientFundsException {
         testAccount.withdraw(-100.0);
     }
     
     @Test
-    public void testMultipleWithdraws() {
+    public void testMultipleWithdraws() throws InsufficientFundsException {
         testAccount.withdraw(300.0);
         testAccount.withdraw(200.0);
         assertEquals(500.0, testAccount.getBalance(), 0.001);

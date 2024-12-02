@@ -1,0 +1,46 @@
+================================================================================
+                       EL PASO MINERS BANK
+                        ACCOUNT STATEMENT
+================================================================================
+
+Statement Date: November 20, 2024 15:10:27
+
+--------------------------------------------------------------------------------
+CUSTOMER INFORMATION
+--------------------------------------------------------------------------------
+Customer ID: 104
+Name: Daniel Fuentes
+Address: 11871 Sal
+Phone: 915-408-8014
+
+--------------------------------------------------------------------------------
+ACCOUNT SUMMARY
+--------------------------------------------------------------------------------
+Checkings Account (1104)
+Current Balance: $100.00
+
+Savings Account (2104)
+Current Balance: $0.00
+
+Credit Account (3104)
+Credit Limit: $596.73
+Current Balance: $0.00
+Available Credit: $596.73
+
+
+--------------------------------------------------------------------------------
+TRANSACTION HISTORY
+--------------------------------------------------------------------------------
+2024-11-20 15:07:19 - Created new customer: Daniel Fuentes (ID: 104)
+2024-11-20 15:08:03 - Daniel Fuentes deposited $100.00 to 1104
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 1104. Balance: $100.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 2104. Balance: $0.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 3104. Balance: $0.00
+
+================================================================================
+                    End of Statement
+================================================================================
+
+For questions or concerns:
+Call: 1-800-MINERS-BANK
+Email: support@elpasominersbank.com

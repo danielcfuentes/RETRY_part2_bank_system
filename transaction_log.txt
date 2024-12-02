@@ -11,3 +11,13 @@
 2024-11-20 13:57:07 - Daniel S made a balance inquiry on 2095. Balance: $2944.12
 2024-11-20 13:57:07 - Daniel S made a balance inquiry on 3095. Balance: $-718.69
 2024-11-20 13:57:12 - Daniel S deposited $100000.00 to 1095
+2024-11-20 15:07:19 - Created new customer: Daniel Fuentes (ID: 104)
+2024-11-20 15:08:03 - Daniel Fuentes deposited $100.00 to 1104
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 1104. Balance: $100.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 2104. Balance: $0.00
+2024-11-20 15:08:06 - Daniel Fuentes made a balance inquiry on 3104. Balance: $0.00
+2024-11-20 15:10:27 - Bank statement generated for: Daniel Fuentes
+2024-11-26 13:35:59 - Created new customer: daniel fuentes (ID: 104)
+2024-12-01 00:25:18 - Daniel S made a balance inquiry on 1095. Balance: $1197.47
+2024-12-01 00:25:18 - Daniel S made a balance inquiry on 2095. Balance: $2944.12
+2024-12-01 00:25:18 - Daniel S made a balance inquiry on 3095. Balance: $-718.69

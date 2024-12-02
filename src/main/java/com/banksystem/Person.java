@@ -136,22 +136,18 @@ public abstract class Person {
      * @param amount amount fo money to pay
      */
     public void pay(Person receiver, Account fromAccount, Account toAccount, double amount) {
-        //validate payment to self
         if (this == receiver || this.getName().equals(receiver.getName())) {
             throw new IllegalArgumentException("Error: Cannot make payments to yourself. Please select a different recipient.");
         }
-
-        //validate same account transfers
+    
         if (fromAccount.getAccountNumber().equals(toAccount.getAccountNumber())) {
             throw new IllegalArgumentException("Cannot transfer between the same account");
         }
-
-        //validate amount
+    
         if (amount <= 0) {
             throw new IllegalArgumentException("Payment amount must be positive");
         }
         
-        //validate account ownership
         if (!this.accounts.contains(fromAccount)) {
             throw new IllegalArgumentException("Source account does not belong to you");
         }
@@ -159,8 +155,7 @@ public abstract class Person {
         if (!receiver.getAccounts().contains(toAccount)) {
             throw new IllegalArgumentException("Destination account does not belong to receiver");
         }
-
-        //handle credit card payment limitations
+    
         if (toAccount instanceof Credit) {
             Credit creditAccount = (Credit) toAccount;
             if (amount > Math.abs(creditAccount.getBalance())) {
@@ -172,17 +167,15 @@ public abstract class Person {
         }
         
         try {
-            //do the transaction
             fromAccount.withdraw(amount);
             toAccount.deposit(amount);
             
-            //log successful payment
             String message = String.format("%s paid %s $%.2f successfully",
                 this.getName(), receiver.getName(), amount);
             System.out.println(message);
             
-        } catch (IllegalArgumentException e) {
-            String errorMessage = "Payment failed: " + e.getMessage();
+        } catch (InsufficientFundsException e) {
+            String errorMessage = "Payment failed: Insufficient funds";
             System.out.println(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }

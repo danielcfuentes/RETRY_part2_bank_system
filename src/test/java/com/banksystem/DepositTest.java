@@ -9,8 +9,12 @@ public class DepositTest {
     
     @Before
     public void setUp() {
-        // Create a concrete implementation of the abstract Account class for testing
-        testAccount = new Account("TEST001", 1000.0) {};
+        testAccount = AccountFactory.createAccount(
+            AccountFactory.CHECKING,
+            "TEST001",
+            1000.0,
+            0.0
+        );
     }
     
     @Test

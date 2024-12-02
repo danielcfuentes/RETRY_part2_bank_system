@@ -16,8 +16,19 @@ public class PaymentTest {
         payer = new Person("John Doe") {};
         receiver = new Person("Jane Smith") {};
         
-        payerAccount = new Account("PAY001", 1000.0) {};
-        receiverAccount = new Account("REC001", 500.0) {};
+        payerAccount = AccountFactory.createAccount(
+            AccountFactory.CHECKING,
+            "PAY001",
+            1000.0,
+            0.0
+        );
+        
+        receiverAccount = AccountFactory.createAccount(
+            AccountFactory.CHECKING,
+            "REC001",
+            500.0,
+            0.0
+        );
         
         List<Account> payerAccounts = new ArrayList<>();
         payerAccounts.add(payerAccount);
@@ -29,14 +40,14 @@ public class PaymentTest {
     }
     
     @Test
-    public void testValidPayment() {
+    public void testValidPayment() throws InsufficientFundsException {
         payer.pay(receiver, payerAccount, receiverAccount, 500.0);
         assertEquals(500.0, payerAccount.getBalance(), 0.001);
         assertEquals(1000.0, receiverAccount.getBalance(), 0.001);
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testPaymentExceedingBalance() {
+    public void testPaymentExceedingBalance() throws InsufficientFundsException {
         payer.pay(receiver, payerAccount, receiverAccount, 2000.0);
     }
     
