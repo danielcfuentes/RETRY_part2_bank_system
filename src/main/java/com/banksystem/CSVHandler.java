@@ -104,24 +104,36 @@ public class CSVHandler {
                         //create and set up their accounts
                         List<Account> accounts = new ArrayList<>();
                         
-                        //create Checking account
-                        accounts.add(new Checkings(
+                            // Create checking account
+                        Account checking = AccountFactory.createAccount(
+                            AccountFactory.CHECKING,
                             parts[columnMap.get("Checking Account Number")],
-                            Double.parseDouble(parts[columnMap.get("Checking Starting Balance")])
-                        ));
+                            Double.parseDouble(parts[columnMap.get("Checking Starting Balance")]),
+                            0.0
+                        );
+                        checking.setOwner(customer);
+                        accounts.add(checking); 
+
                         
-                        //create Savings account
-                        accounts.add(new Savings(
+                        // Create savings account
+                        Account savings = AccountFactory.createAccount(
+                            AccountFactory.SAVINGS,
                             parts[columnMap.get("Savings Account Number")],
-                            Double.parseDouble(parts[columnMap.get("Savings Starting Balance")])
-                        ));
+                            Double.parseDouble(parts[columnMap.get("Savings Starting Balance")]),
+                            0.0
+                        );
+                        savings.setOwner(customer);
+                        accounts.add(savings);
                         
-                        //create Credit account
-                        accounts.add(new Credit(
+                        // Create credit account
+                        Account credit = AccountFactory.createAccount(
+                            AccountFactory.CREDIT,
                             parts[columnMap.get("Credit Account Number")],
                             Double.parseDouble(parts[columnMap.get("Credit Starting Balance")]),
                             Double.parseDouble(parts[columnMap.get("Credit Max")])
-                        ));
+                        );
+                        credit.setOwner(customer);
+                        accounts.add(credit);
                         
                         //associate accounts with customer and add to customers map
                         customer.setAccounts(accounts);

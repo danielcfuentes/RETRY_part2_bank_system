@@ -108,23 +108,39 @@ public class NewUsers {
         newCustomer.setCreditScore(Integer.parseInt(userData.get("creditScore")));
         
         //generate account numbers
-        List<String> accountNumbers = generateAccountNumbers(customerId);
         List<Account> accounts = new ArrayList<>();
-        
-        //create accounts
-        Account checking = new Checkings(accountNumbers.get(0), 0.0);
+
+        // Create checking account
+        Account checking = AccountFactory.createAccount(
+            AccountFactory.CHECKING,
+            AccountFactory.generateAccountNumber(AccountFactory.CHECKING, customerId),
+            0.0,
+            0.0
+        );
         checking.setOwner(newCustomer);
         accounts.add(checking);
-        
-        Account savings = new Savings(accountNumbers.get(1), 0.0);
+
+        // Create savings account
+        Account savings = AccountFactory.createAccount(
+            AccountFactory.SAVINGS,
+            AccountFactory.generateAccountNumber(AccountFactory.SAVINGS, customerId),
+            0.0,
+            0.0
+        );
         savings.setOwner(newCustomer);
         accounts.add(savings);
-        
+
+        // Create credit account with limit
         double creditLimit = getCreditLimit(newCustomer.getCreditScore());
-        Account credit = new Credit(accountNumbers.get(2), 0.0, creditLimit);
+        Account credit = AccountFactory.createAccount(
+            AccountFactory.CREDIT,
+            AccountFactory.generateAccountNumber(AccountFactory.CREDIT, customerId),
+            0.0,
+            creditLimit
+        );
         credit.setOwner(newCustomer);
         accounts.add(credit);
-        
+
         newCustomer.setAccounts(accounts);
         return newCustomer;
     }
@@ -162,22 +178,6 @@ public class NewUsers {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid credit score format");
         }
-    }
-
-    /**
-     * Generates unique account numbers for the new customer.
-     * We use the customer ID to generate unique account numbers.
-     * 
-     * @param customerId the unique customer ID
-     * @return a list of account numbers for checking, savings, and credit accounts
-     */
-    private List<String> generateAccountNumbers(String customerId) {
-        String paddedId = String.format("%03d", Integer.parseInt(customerId));
-        return Arrays.asList(
-            "1" + paddedId,
-            "2" + paddedId,
-            "3" + paddedId
-        );
     }
 
     /**

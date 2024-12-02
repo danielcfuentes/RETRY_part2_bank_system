@@ -171,39 +171,41 @@ public class CustomerMenu implements Menu {
         displayAccountsForSelection();
         
         try {
-            System.out.print("Please select an account by entering a number (1-" + customer.getAccounts().size() + "): ");
+            System.out.print("Select account (1-" + customer.getAccounts().size() + "): ");
             int accountIndex = Integer.parseInt(getInput()) - 1;
             
             if (accountIndex >= 0 && accountIndex < customer.getAccounts().size()) {
-                System.out.println("Please enter the amount you wish to withdraw: $");
+                System.out.println("Enter amount to withdraw:");
                 System.out.println("__________________");
                 double amount = Double.parseDouble(getInput());
                 
                 Account selectedAccount = customer.getAccounts().get(accountIndex);
-                selectedAccount.withdraw(amount);
-                
-                System.out.printf("Successfully withdrew $%.2f%n", amount);
-                logger.logTransaction(
-                    String.format("%s withdrew $%.2f from %s", 
-                        customer.getName(),
-                        amount, 
-                        selectedAccount.getAccountNumber()),
-                    customer.getName()
-                );
+                try {
+                    selectedAccount.withdraw(amount);
+                    System.out.printf("Successfully withdrew $%.2f%n", amount);
+                    logger.logTransaction(
+                        String.format("%s withdrew $%.2f from %s", 
+                            customer.getName(),
+                            amount, 
+                            selectedAccount.getAccountNumber()),
+                        customer.getName()
+                    );
+                } catch (InsufficientFundsException e) {
+                    System.out.printf("Insufficient funds. Available balance: $%.2f, Attempted withdrawal: $%.2f%n",
+                        e.getAvailableBalance(), e.getAttemptedAmount());
+                }
             } else {
                 System.out.println("Invalid account selection.");
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
         }
     }
 
     /**
      * Handles transfer between accounts.
      * Allows customer to select source and destination accounts and specify amount.
-     */
+    */
     private void handleTransfer() {
         List<Account> accounts = customer.getAccounts();
         
@@ -215,47 +217,50 @@ public class CustomerMenu implements Menu {
                 accounts.get(i).getBalance()
             );
         }
-
+    
         try {
-            System.out.println("\nPlease select the account you want to transfer money FROM:");
+            System.out.print("Enter source account (1-" + accounts.size() + "): ");
             int fromAccount = Integer.parseInt(getInput()) - 1;
             
-            System.out.println("Then select the account you want to transfer money TO:");
+            System.out.print("Enter destination account (1-" + accounts.size() + "): ");
             int toAccount = Integer.parseInt(getInput()) - 1;
             
             if (fromAccount == toAccount) {
                 System.out.println("Cannot transfer to same account.");
                 return;
             }
-
+    
             if (fromAccount >= 0 && fromAccount < accounts.size() && 
                 toAccount >= 0 && toAccount < accounts.size()) {
                     
-                System.out.println("Enter amount you wish to transfer:");
+                System.out.println("Enter amount to transfer:");
                 double amount = Double.parseDouble(getInput());
                 
                 Account source = accounts.get(fromAccount);
                 Account destination = accounts.get(toAccount);
                 
-                source.withdraw(amount);
-                destination.deposit(amount);
-                
-                System.out.printf("Successfully transferred $%.2f%n", amount);
-                logger.logTransaction(
-                    String.format("%s transferred $%.2f from %s to %s", 
-                        customer.getName(), 
-                        amount, 
-                        source.getAccountNumber(), 
-                        destination.getAccountNumber()),
-                    customer.getName()
-                );
+                try {
+                    source.withdraw(amount);
+                    destination.deposit(amount);
+                    
+                    System.out.printf("Successfully transferred $%.2f%n", amount);
+                    logger.logTransaction(
+                        String.format("%s transferred $%.2f from %s to %s", 
+                            customer.getName(), 
+                            amount, 
+                            source.getAccountNumber(), 
+                            destination.getAccountNumber()),
+                        customer.getName()
+                    );
+                } catch (InsufficientFundsException e) {
+                    System.out.printf("Transfer failed. Available balance: $%.2f, Attempted transfer: $%.2f%n",
+                        e.getAvailableBalance(), e.getAttemptedAmount());
+                }
             } else {
                 System.out.println("Invalid account selection.");
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
         }
     }
 

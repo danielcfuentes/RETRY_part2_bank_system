@@ -20,12 +20,16 @@ public class Savings extends Account {
      * @param to the target account
      * @param amount the amount to transfer
      */
-    public void tansfer(Account to, double amount){
-        if ( amount > 0 && balance >= amount){
-            this.withdraw(amount);
-            to.deposit(amount);
-        }else{
-            throw new IllegalArgumentException("Not Valid Transfer Amount");
+    public void tansfer(Account to, double amount) {
+        try {
+            if (amount > 0 && balance >= amount) {
+                this.withdraw(amount);
+                to.deposit(amount);
+            } else {
+                throw new IllegalArgumentException("Not Valid Transfer Amount");
+            }
+        } catch (InsufficientFundsException e) {
+            throw new IllegalArgumentException("Insufficient funds for transfer: " + e.getMessage());
         }
-    }    
+    } 
 }

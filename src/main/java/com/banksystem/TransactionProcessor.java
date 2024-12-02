@@ -149,39 +149,27 @@ public class TransactionProcessor {
      * @throws IllegalArgumentException if the transaction is invalid
      */
     private void handleTransfer(String[] parts, int lineNumber) {
-        Customer customer = findCustomer(parts[0], parts[1]);
-        Account fromAccount = findAccount(customer, parts[2]);
-        Account toAccount = findAccount(customer, parts[6]);
-        double amount = parseAmount(parts[7]);
-        
-        //validate accounts are different
-        if (fromAccount.getAccountNumber().equals(toAccount.getAccountNumber())) {
-            throw new IllegalArgumentException(
-                "Cannot transfer to the same account"
-            );
-        }
-        
-        //validate amount won't cause negative balance
-        if (fromAccount.getBalance() - amount < 0) {
-            throw new IllegalArgumentException("Insufficient funds");
-        }
-        
-        //validate credit transfer amount
-        if (toAccount instanceof Credit) {
-            Credit creditAccount = (Credit) toAccount;
-            if (Math.abs(creditAccount.getBalance()) < amount) {
+        try {
+            Customer customer = findCustomer(parts[0], parts[1]);
+            Account fromAccount = findAccount(customer, parts[2]);
+            Account toAccount = findAccount(customer, parts[6]);
+            double amount = parseAmount(parts[7]);
+            
+            if (fromAccount.getAccountNumber().equals(toAccount.getAccountNumber())) {
+                throw new IllegalArgumentException("Cannot transfer to the same account");
+            }
+            
+            try {
+                fromAccount.withdraw(amount);
+                toAccount.deposit(amount);
+            } catch (InsufficientFundsException e) {
                 throw new IllegalArgumentException(
-                    "Cannot transfer more than credit card balance"
+                    String.format("Insufficient funds for transfer. Available: $%.2f, Attempted: $%.2f",
+                        e.getAvailableBalance(), e.getAttemptedAmount())
                 );
             }
-        }
-        
-        if (fromAccount instanceof Savings) {
-            ((Savings) fromAccount).tansfer(toAccount, amount);
-        } else if (fromAccount instanceof Checkings) {
-            ((Checkings) fromAccount).tansfer(toAccount, amount);
-        } else {
-            throw new IllegalArgumentException("Invalid account type for transfer");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error processing transfer: " + e.getMessage());
         }
     }
 
@@ -193,19 +181,22 @@ public class TransactionProcessor {
      * @throws IllegalArgumentException if the transaction is invalid
      */
     private void handleWithdraw(String[] parts, int lineNumber) {
-        Customer customer = findCustomer(parts[0], parts[1]);
-        Account account = findAccount(customer, parts[2]);
-        double amount = parseAmount(parts[7]);
-        
-        //validate amount won't cause negative balance
-        if (account.getBalance() - amount < 0) {
-            throw new IllegalArgumentException(
-                String.format("Insufficient funds (balance: $%.2f, withdrawal: $%.2f)",
-                    account.getBalance(), amount)
-            );
+        try {
+            Customer customer = findCustomer(parts[0], parts[1]);
+            Account account = findAccount(customer, parts[2]);
+            double amount = parseAmount(parts[7]);
+            
+            try {
+                account.withdraw(amount);
+            } catch (InsufficientFundsException e) {
+                throw new IllegalArgumentException(
+                    String.format("Insufficient funds (balance: $%.2f, withdrawal: $%.2f)",
+                        e.getAvailableBalance(), e.getAttemptedAmount())
+                );
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error processing withdrawal: " + e.getMessage());
         }
-        
-        account.withdraw(amount);
     }
 
     /**

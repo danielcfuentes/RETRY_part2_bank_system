@@ -10,7 +10,12 @@ public class BorrowTest {
     
     @Before
     public void setUp() {
-        creditAccount = new Credit("CRED001", 0.0, CREDIT_LIMIT);
+        creditAccount = (Credit) AccountFactory.createAccount(
+            AccountFactory.CREDIT,
+            "CRED001",
+            0.0,
+            CREDIT_LIMIT
+        );
     }
     
     @Test
